@@ -8,7 +8,7 @@ import { useState } from 'react';
 const MainHeader = () => {
 
   return (
-    <div className="h-screen">
+    <div className="">
       <div className="">
        
 
