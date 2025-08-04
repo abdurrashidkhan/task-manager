@@ -5,7 +5,7 @@ export default function Navbar() {
     const [taskModal, setTaskModal] = useState(false)
     console.log(taskModal)
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar  shadow-sm sticky top-0 z-[999] bg-[#fff]">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="">
