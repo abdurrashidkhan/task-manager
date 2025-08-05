@@ -1,7 +1,7 @@
 const express = require("express");
 require('dotenv').config();
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const port = process.env.PORT || 4000;
 const app = express();
@@ -51,6 +51,23 @@ async function run() {
         res.status(500).send({
           status: false,
           message: 'Failed to get tasks'
+        });
+      }
+    })
+    app.get('/task/:id', async (req, res) => {
+      const { id } = req.params
+      const flitter = { _id: new ObjectId(id) }
+      console.log('id',id)
+      try {
+        const task = await tasks.findOne(flitter)
+        res.status(200).send({
+          status: true,
+          task: task,
+        })
+      } catch (error) {
+        res.status(500).send({
+          status: false,
+          message: `Failed to get tasks : ${id}`
         });
       }
     })
