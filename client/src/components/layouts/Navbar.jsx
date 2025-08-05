@@ -1,10 +1,11 @@
 import { BellIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import React, { useState } from 'react'
+import AddTaskForm from '../addTask/addTask'
 
 export default function Navbar() {
     const [taskModal, setTaskModal] = useState(false)
-    console.log(taskModal)
   return (
+    <>
     <div className="navbar  shadow-sm sticky top-0 z-[999] bg-[#fff]">
       <div className="navbar-start">
         <div className="dropdown">
@@ -43,5 +44,9 @@ export default function Navbar() {
           </div>
       </div>
     </div>
+    {
+      taskModal && <AddTaskForm/>
+    }
+    </>
   )
 }
