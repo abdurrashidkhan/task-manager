@@ -25,20 +25,34 @@ async function run() {
     app.post('/create-task', async (req, res) => {
       const task = req.body;
       try {
-    const result = await tasks.insertOne(task);
-    console.log('Insert result:', result);
-    res.send({
-      status: true,
-      message: 'Task created successfully',
-      insertedId: result.insertedId
-    });
-    } catch (err) {
-      console.error('fail create task:', err.message);
-      res.status(500).send({
-        status: false,
-        message: 'Failed to create task'
-      });
-    }
+        const result = await tasks.insertOne(task);
+        console.log('Insert result:', result);
+        res.status(200).send({
+          status: true,
+          message: 'Task created successfully',
+          insertedId: result.insertedId
+        });
+      } catch (err) {
+        console.error('fail create task:', err.message);
+        res.status(500).send({
+          status: false,
+          message: 'Failed to create task'
+        });
+      }
+    })
+    app.get('/tasks', async (req, res) => {
+      try {
+        const result = await tasks.find().toArray()
+        res.status(200).send({
+          status: true,
+          task: result,
+        })
+      } catch (error) {
+        res.status(500).send({
+          status: false,
+          message: 'Failed to get tasks'
+        });
+      }
     })
   } catch (err) {
     console.error('❌ MongoDB error:', err.message);
