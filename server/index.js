@@ -21,8 +21,25 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    const FoodsCollection = client.db('unLimitedFoods').collection('foods');
-    
+    const tasks = client.db('tasks-manager').collection('tasks');
+    app.post('/create-task', async (req, res) => {
+      const task = req.body;
+      try {
+    const result = await tasks.insertOne(task);
+    console.log('Insert result:', result);
+    res.send({
+      status: true,
+      message: 'Task created successfully',
+      insertedId: result.insertedId
+    });
+    } catch (err) {
+      console.error('fail create task:', err.message);
+      res.status(500).send({
+        status: false,
+        message: 'Failed to create task'
+      });
+    }
+    })
   } catch (err) {
     console.error('❌ MongoDB error:', err.message);
   }
