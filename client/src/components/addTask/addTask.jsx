@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const AddTaskForm = () => {
+const AddTaskForm = ({setTaskModal}) => {
   const {
     register,
     handleSubmit,
@@ -22,7 +22,7 @@ const AddTaskForm = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-base-200 bg-opacity-50 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-base-200 bg-opacity-50 shadow-2xl transition-all ease-in-out duration-700">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white shadow-lg p-6 rounded-lg w-96 space-y-4"
@@ -82,7 +82,7 @@ const AddTaskForm = () => {
         </select>
 
         <div className="flex justify-end space-x-2">
-          <button type="button" className=" bg-red-700 hover:bg-red-800 text-[#fff] px-5 py-1 rounded shadow hover:shadow-xl hover:cursor-pointer" onClick={() => reset()} >
+          <button type="button" className=" bg-red-700 hover:bg-red-800 text-[#fff] px-5 py-1 rounded shadow hover:shadow-xl hover:cursor-pointer" onClick={() => setTaskModal(false)} >
             Cancel
           </button>
           <button type="submit" className="bg-blue-700 hover:bg-blue-800 text-[#fff] px-5 py-1 rounded shadow hover:shadow-xl  hover:cursor-pointer">

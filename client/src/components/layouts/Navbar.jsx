@@ -45,7 +45,7 @@ export default function Navbar() {
       </div>
     </div>
     {
-      taskModal && <AddTaskForm/>
+      taskModal && <AddTaskForm setTaskModal={setTaskModal}/>
     }
     </>
   )
