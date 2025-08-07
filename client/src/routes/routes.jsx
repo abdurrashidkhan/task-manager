@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
-import Tasks from '../pages/mainHeader';
+import Tasks from '../pages/AllTask';
 import Chat from '../pages/Chat';
 import Settings from '../pages/Settings';
 import Profile from '../pages/Profile';
-import MainHeader from '../pages/mainHeader';
+// import MainHeader from '../pages/AllTask';
 const routes = createBrowserRouter([
   {
     path: '/',
@@ -12,7 +12,7 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MainHeader />,
+        element: <Tasks />,
       },
       {
         path: '/chat',
