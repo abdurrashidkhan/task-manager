@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 const AllTask = () => {
 
   const { tasks } = useSelector((state) => state.tasks)
-  console.log(tasks, 'tasks loaded')
+  console.log(tasks)
 
 
 
@@ -28,7 +28,11 @@ const AllTask = () => {
               </p>
             </div>
             <div className="space-y-3">
-              <TaskCard />
+              {
+                tasks.map(option=>
+                  <TaskCard option={option}/>
+                )
+              }
             </div>
           </div>
 

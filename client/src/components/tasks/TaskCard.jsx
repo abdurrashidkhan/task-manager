@@ -1,15 +1,14 @@
 import { ArrowRightIcon, TrashIcon } from '@heroicons/react/24/outline';
 
-const TaskCard = () => {
+const TaskCard = ({option}) => {
+  console.log(option, 'tasks loaded')
   const task = {
-    id: 1,
-    status: 'pending',
-    title: 'Remove Button',
-    description:
-      'We need a remove button in our task card. Meke the button red and use Heroicon for tashbin icon.',
-    date: '2023-08-28',
-    assignedTo: 'Rashid khan',
-    priority: 'high',
+    id: option?.id,
+    status: option?.status,
+    description:option?.description,
+    date: option?.assignDate.toString(),
+    assignedTo:option?.assignedTo,
+    priority: option?.status,
   };
 
   return (

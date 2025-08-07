@@ -14,12 +14,13 @@ const AddTaskForm = ({ setTaskModal }) => {
 
   const onSubmit = (data) => {
     const taskData = {
-      title: data.title,
-      description: data.description,
-      assignTo: data.assignTo,
-      deadline: data.deadline,
+      title: data?.title,
+      description: data?.description,
+      assignTo: data?.assignTo,
+      deadline: data?.deadline,
       assignDate: new Date(),
-      status: 'next-up'
+      status: 'next-up',
+      priority:data?.priority,
     }
     dispatch(addTask(taskData))
     reset();
