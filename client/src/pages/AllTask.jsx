@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 const AllTask = () => {
 
   const { tasks } = useSelector((state) => state.tasks)
-
+  console.log(tasks, 'tasks loaded')
 
 
 
