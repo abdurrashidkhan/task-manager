@@ -57,7 +57,6 @@ async function run() {
     app.get('/task/:id', async (req, res) => {
       const { id } = req.params
       const flitter = { _id: new ObjectId(id) }
-      console.log('id',id)
       try {
         const task = await tasks.findOne(flitter)
         res.status(200).send({
