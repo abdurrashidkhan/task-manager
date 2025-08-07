@@ -22,7 +22,7 @@ const AddTaskForm = ({setTaskModal}) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-base-200 bg-opacity-50 shadow-2xl transition-all ease-in-out duration-700">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-base-200 bg-opacity-50 shadow-2xl transition-all ease-in-out duration-1000">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white shadow-lg p-6 rounded-lg w-96 space-y-4"

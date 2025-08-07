@@ -1,7 +1,7 @@
 const express = require("express");
 require('dotenv').config();
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const port = process.env.PORT || 4000;
 const app = express();
@@ -21,8 +21,55 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    const FoodsCollection = client.db('unLimitedFoods').collection('foods');
-    
+    const tasks = client.db('tasks-manager').collection('tasks');
+    app.post('/create-task', async (req, res) => {
+      const task = req.body;
+      try {
+        const result = await tasks.insertOne(task);
+        console.log('Insert result:', result);
+        res.status(200).send({
+          status: true,
+          message: 'Task created successfully',
+          insertedId: result.insertedId
+        });
+      } catch (err) {
+        console.error('fail create task:', err.message);
+        res.status(500).send({
+          status: false,
+          message: 'Failed to create task'
+        });
+      }
+    })
+    app.get('/tasks', async (req, res) => {
+      try {
+        const result = await tasks.find().toArray()
+        res.status(200).send({
+          status: true,
+          task: result,
+        })
+      } catch (error) {
+        res.status(500).send({
+          status: false,
+          message: 'Failed to get tasks'
+        });
+      }
+    })
+    app.get('/task/:id', async (req, res) => {
+      const { id } = req.params
+      const flitter = { _id: new ObjectId(id) }
+      try {
+        const task = await tasks.findOne(flitter)
+        res.status(200).send({
+          status: true,
+          task: task,
+        })
+      } catch (error) {
+        res.status(500).send({
+          status: false,
+          message: `Failed to get tasks : ${id}`
+        });
+      }
+    })
   } catch (err) {
     console.error('❌ MongoDB error:', err.message);
   }
