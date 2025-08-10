@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 const AllTask = () => {
 
-  const { tasks } = useSelector((state) => state.tasks)
+  const { tasks, removeTask } = useSelector((state) => state.tasks)
   console.log(tasks)
 
 
@@ -30,7 +30,7 @@ const AllTask = () => {
             <div className="space-y-3">
               {
                 tasks.map(option=>
-                  <TaskCard option={option}/>
+                  <TaskCard option={option} removeTask={removeTask}/>
                 )
               }
             </div>

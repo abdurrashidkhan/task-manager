@@ -1,7 +1,9 @@
 import { ArrowRightIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { useDispatch } from 'react-redux';
+import { updateStatus } from '../../redux/task/task';
 
 const TaskCard = ({option}) => {
-  console.log(option, 'tasks loaded')
+
   const task = {
     id: option?.id,
     status: option?.status,
@@ -10,7 +12,7 @@ const TaskCard = ({option}) => {
     assignedTo:option?.assignedTo,
     priority: option?.status,
   };
-
+  const dispatch = useDispatch()
   return (
     <div className="bg-secondary/10 rounded-md p-5">
       <h1
@@ -27,12 +29,12 @@ const TaskCard = ({option}) => {
       <div className="flex justify-between mt-3">
         <p>{task?.date}</p>
         <div className="flex gap-3">
-          <button onClick={() => dispatch(removeTask(task.id))} title="Delete">
+          <button onClick={() => useDispatch(removeTask({id: task.id, state:removeTask}))} title="Delete">
             <TrashIcon className="h-5 w-5 text-red-500" />
           </button>
           <button
             onClick={() =>
-              dispatch(updateStatus({ id: task.id, status: updatedStatus }))
+              dispatch(updateStatus(task.id))
             }
             title="In progress"
           >
