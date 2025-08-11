@@ -22,32 +22,34 @@ const AllTask = () => {
 
 
         <div className="grid grid-cols-4 gap-5 mt-2 px-2 ">
-          <div className={`${ runningTask.length > 0 && 'h-auto' } relative h-[65px] overflow-auto bg-[#f5f5f5] shadow-2xl rounded `}>
-            <div className="flex sticky top-0 justify-between bg-[#fff] p-5 rounded shadow">
+          <div className="bg-[#f5f5f5] shadow-2xl rounded max-h-screen flex flex-col">
+            {/* Sticky header */}
+            <div className="flex sticky top-0 justify-between bg-white p-5 rounded-t shadow">
               <h1>Up Next</h1>
               <p className="bg-blue-500 text-white w-6 h-6 grid place-content-center rounded-md">
                 {runningTask.length}
               </p>
             </div>
-            <div className="space-y-3 px-3 mb-5">
-              {
-                runningTask.map(option =>
-                  <TaskCard option={option} removeTask={removeTask} />
-                )
-              }
+
+            {/* Scrollable task list */}
+            <div className="space-y-3 px-3 overflow-y-auto">
+              {runningTask.map(option => (
+                <TaskCard key={option.id} option={option} removeTask={removeTask} />
+              ))}
             </div>
           </div>
 
 
 
-          <div className={`${ inProcessTask.length > 0 && 'h-auto' } relative h-[65px] overflow-auto bg-[#fff] shadow-2xl rounded `}>
+
+          <div className={`${inProcessTask.length > 0 && 'h-auto'} relative h-[65px] overflow-auto bg-[#f5f5f5] shadow-2xl rounded `}>
             <div className="flex sticky top-0 justify-between bg-[#fff] p-5 rounded shadow">
               <h1>In Progress</h1>
               <p className="bg-blue-500 text-white w-6 h-6 grid place-content-center rounded-md">
                 {inProcessTask.length}
               </p>
             </div>
-            <div className="space-y-3 px-3 mb-5">
+            <div className="space-y-3 px-3">
               {
                 inProcessTask.map(option =>
                   <TaskCard option={option} removeTask={removeTask} />
@@ -58,14 +60,14 @@ const AllTask = () => {
 
 
 
-          <div className={`${ doneTask.length > 0 && 'h-auto' } relative h-[65px] overflow-auto bg-[#fff] shadow-2xl rounded `}>
+          <div className={`${doneTask.length > 0 && 'h-auto'} relative h-[65px] overflow-auto bg-[#f5f5f5] shadow-2xl rounded `}>
             <div className="flex sticky top-0 justify-between bg-[#fff] p-5 rounded shadow">
               <h1>Done</h1>
               <p className="bg-blue-500 text-white w-6 h-6 grid place-content-center rounded-md">
                 {doneTask.length}
               </p>
             </div>
-            <div className="space-y-3 px-3 mb-5">
+            <div className="space-y-3 px-3">
               {
                 doneTask.map(option =>
                   <TaskCard option={option} removeTask={removeTask} />
@@ -73,7 +75,7 @@ const AllTask = () => {
               }
             </div>
           </div>
-          
+
         </div>
       </div>
       {/* <div className="col-span-3 border-l-2 border-secondary/20 px-10 pt-10">
