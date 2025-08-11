@@ -21,9 +21,9 @@ const tasks = createSlice({
       })
     },
     updateStatus : (state, {payload}) =>{
-      const target = state.tasks.find(task => task.id === payload);
+      const target = state.tasks.find(task => task.id === payload.id);
       if (target) {
-        target.status = 'running';
+        target.status = payload.status;
       }
     }
   },
