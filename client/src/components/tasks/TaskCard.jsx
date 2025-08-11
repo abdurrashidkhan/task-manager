@@ -9,7 +9,7 @@ const TaskCard = ({ option }) => {
     status: option?.status,
     description: option?.description,
     date: option?.assignDate.toString(),
-    assignedTo: option?.assignedTo,
+    assignedTo: option?.assignTo,
     priority: option?.status,
   };
 

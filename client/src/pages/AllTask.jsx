@@ -9,10 +9,13 @@ import { useSelector } from 'react-redux';
 const AllTask = () => {
 
   const { tasks, removeTask } = useSelector((state) => state.tasks)
-  console.log(tasks)
+  console.log(tasks,'========tasks=========>')
 
+  const runningTask = tasks.filter(option => option.status === 'next-up')
+  const inProcessTask = tasks.filter(option => option.status === 'in-process')
+  const doneTask = tasks.filter(option => option.status === 'done')
 
-
+  console.log(runningTask,'==========raning=======>')
   return (
     <div className="">
       <div className="">
@@ -29,8 +32,8 @@ const AllTask = () => {
             </div>
             <div className="space-y-3">
               {
-                tasks.map(option=>
-                  <TaskCard option={option} removeTask={removeTask}/>
+                runningTask.map(option =>
+                  <TaskCard option={option} removeTask={removeTask} />
                 )
               }
             </div>
@@ -46,8 +49,11 @@ const AllTask = () => {
               </p>
             </div>
             <div className="space-y-3">
-              <TaskCard />
-              <TaskCard />
+              {
+                inProcessTask.map(option =>
+                  <TaskCard option={option} removeTask={removeTask} />
+                )
+              }
             </div>
           </div>
 
@@ -61,19 +67,23 @@ const AllTask = () => {
               </p>
             </div>
             <div className="space-y-3">
-              <TaskCard />
+              {
+                doneTask.map(option =>
+                  <TaskCard option={option} removeTask={removeTask} />
+                )
+              }
             </div>
           </div>
           <div className="relative h-[800px] overflow-auto">
             <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
-              <h1>Tested</h1>
+              <h1>Done</h1>
               <p className="bg-blue-500 text-white w-6 h-6 grid place-content-center rounded-md">
                 0
               </p>
             </div>
-            {/* <div className="space-y-3">
+            <div className="space-y-3">
               <MyTasks />
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
