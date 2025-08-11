@@ -1,7 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { addTask } from "../../redux/task/task";
 
-const AddTaskForm = ({setTaskModal}) => {
+const AddTaskForm = ({ setTaskModal }) => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -11,14 +14,17 @@ const AddTaskForm = ({setTaskModal}) => {
 
   const onSubmit = (data) => {
     const taskData = {
-      title : data.title,
-      description: data.description,
-      assignTo:data.assignTo,
-      deadline:data.deadline,
-      assignDate: new Date()
+      title: data?.title,
+      description: data?.description,
+      assignTo: data?.assignTo,
+      deadline: data?.deadline,
+      assignDate: new Date(),
+      status: 'next-up',
+      priority:data?.priority,
     }
-    console.log("Form submitted:", taskData);
+    dispatch(addTask(taskData))
     reset();
+    setTaskModal(false)
   };
 
   return (
@@ -36,7 +42,7 @@ const AddTaskForm = ({setTaskModal}) => {
           className="input input-bordered w-full shadow focus:shadow-xl border-gray-100 transition-all ease-in-out duration-500"
         />
         {errors.title && (
-          <span className="text-error text-sm">{errors.title.message}</span>
+          <span className="text-red-800 text-sm">{errors.title.message}</span>
         )}
 
         <textarea
@@ -45,7 +51,7 @@ const AddTaskForm = ({setTaskModal}) => {
           className="textarea textarea-bordered w-full shadow focus:shadow-xl border-gray-100 transition-all ease-in-out duration-500"
         />
         {errors.description && (
-          <span className="text-error text-sm">
+          <span className="text-red-800 text-sm">
             {errors.description.message}
           </span>
         )}
@@ -56,7 +62,7 @@ const AddTaskForm = ({setTaskModal}) => {
           className="input input-bordered w-full shadow focus:shadow-xl border-gray-100 transition-all ease-in-out duration-500"
         />
         {errors.deadline && (
-          <span className="text-error text-sm">{errors.deadline.message}</span>
+          <span className="text-red-800 text-sm">{errors.deadline.message}</span>
         )}
 
         <select
@@ -68,7 +74,7 @@ const AddTaskForm = ({setTaskModal}) => {
           <option className="hover:cursor-pointer" value="Other">Other</option>
         </select>
         {errors.assignTo && (
-          <span className="text-error text-sm">{errors.assignTo.message}</span>
+          <span className="text-red-800 text-sm">{errors.assignTo.message}</span>
         )}
 
         <select

@@ -2,15 +2,21 @@ import { BellIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import MyTasks from '../components/tasks/MyTasks';
 import TaskCard from '../components/tasks/TaskCard';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 // import RightSidebar from '../components/layouts/Members';
 
 
-const MainHeader = () => {
+const AllTask = () => {
+
+  const { tasks, removeTask } = useSelector((state) => state.tasks)
+  console.log(tasks)
+
+
 
   return (
     <div className="">
       <div className="">
-       
+
 
 
         <div className="grid grid-cols-4 gap-5 mt-10">
@@ -22,7 +28,11 @@ const MainHeader = () => {
               </p>
             </div>
             <div className="space-y-3">
-              <TaskCard />
+              {
+                tasks.map(option=>
+                  <TaskCard option={option} removeTask={removeTask}/>
+                )
+              }
             </div>
           </div>
 
@@ -61,9 +71,9 @@ const MainHeader = () => {
                 0
               </p>
             </div>
-            <div className="space-y-3">
+            {/* <div className="space-y-3">
               <MyTasks />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -74,4 +84,4 @@ const MainHeader = () => {
   );
 };
 
-export default MainHeader;
+export default AllTask;
