@@ -1,6 +1,6 @@
 const Chat = () => {
   return (
-    <div className="bg-[#fff] border border-[#fff] shadow rounded px-1 mb-5">
+    <div className="bg-[#fff] border border-[#ffffff] shadow-2xl  rounded p-2 mb-5">
       {/* chat */}
       <div className="flex-1 overflow-auto">
         <div className="mb-4">
