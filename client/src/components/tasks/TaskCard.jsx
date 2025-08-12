@@ -1,9 +1,9 @@
 import { ArrowRightIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useDispatch } from 'react-redux';
-import { updateStatus } from '../../redux/task/task';
+import { removeTask, updateStatus } from '../../redux/task/task';
 
 const TaskCard = ({ option }) => {
-
+  const dispatch = useDispatch()
   const task = {
     id: option?.id,
     status: option?.status,
@@ -18,12 +18,16 @@ const TaskCard = ({ option }) => {
   if (task.status === 'next-up') {
     status = 'in-process'
   } else if (task.status === 'in-process') {
+    status = 'submitted'
+  } else if (task.status === 'submitted') {
     status = 'done'
-  } else{
+  } else {
     status = 'archiver'
   }
 
-  const dispatch = useDispatch()
+  const handelClick = (id) => {
+    dispatch(removeTask(id))
+  }
   return (
     <div className=" rounded-md p-5 bg-[#fff] shadow-md my-3">
       <h1
@@ -38,7 +42,7 @@ const TaskCard = ({ option }) => {
       <div className="flex justify-between mt-3">
         <p>{task?.date}</p>
         <div className="flex gap-3">
-          <button onClick={() => useDispatch(removeTask({ id: task.id, state: removeTask }))} title="Delete" disabled={task.status==='archiver' ? true : false} className='hover:cursor-pointer '>
+          <button onClick={() => handelClick(task.id)} title="Delete" disabled={task.status === 'archiver' ? true : false} className='hover:cursor-pointer '>
             <TrashIcon className="h-5 w-5 text-red-500" />
           </button>
           <button
