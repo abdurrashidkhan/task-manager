@@ -1,8 +1,6 @@
-# React + Vite
+# Task Management 
 
-## Folder 
-
-Redux structure 
+## Redux Folder structure 
 .
 └── src/
     └── stores/
