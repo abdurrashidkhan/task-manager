@@ -40,7 +40,7 @@ const AllTask = () => {
     <div className="grid grid-cols-4 gap-5 mt-2 px-2 items-start">
       <TaskColumn title="To Do" taskList={runningTask} />
       <TaskColumn title="In Progress" taskList={inProcessTask} />
-      <TaskColumn title="Submitted" taskList={submittedTask} />
+      <TaskColumn title="In Reviews" taskList={submittedTask} />
       <TaskColumn title="Done" taskList={doneTask} />
     </div>
   );
