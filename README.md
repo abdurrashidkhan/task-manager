@@ -1,11 +1,10 @@
 # Task Management 
 
 ## Redux Folder structure 
-.
-└── src/
-    └── stores/
-        └── tasks/
-            ├── api.js   
-            ├── action.js  
-            └── reducer.js
+src/
+└── stores/
+    └── tasks/
+        ├── api.js   
+        ├── action.js  
+        └── reducer.js
 
