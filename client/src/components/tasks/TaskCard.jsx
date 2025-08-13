@@ -1,7 +1,8 @@
 import { ArrowRightIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useDispatch } from 'react-redux';
 import { removeTask, updateStatus } from '../../redux/task/task';
-import { useGetPostsQuery } from '../../redux/stores/api/baseApi';
+import { useCreateTaskMutation } from '../../redux/stores/api/tasksBaseApi';
+
 
 const TaskCard = ({ option }) => {
   const dispatch = useDispatch()
@@ -29,7 +30,7 @@ const TaskCard = ({ option }) => {
   const handelClick = (id) => {
     dispatch(removeTask(id))
   }
-  const { data, isLoading, isError, error } = useGetPostsQuery();
+  const { data, isLoading, isError, error } = useCreateTaskMutation(task);
   console.log(data , ' =============>')
   return (
     // <div className=" rounded-md p-5 bg-[#fff] shadow-md my-3">
