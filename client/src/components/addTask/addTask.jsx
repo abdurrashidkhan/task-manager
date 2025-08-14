@@ -28,13 +28,17 @@ const TaskModal = ({ setTaskModal, isLoading, createError, onSubmit }) => {
     },
   });
 
+  const allFieldsRequired = (fieldName) => ({
+    required: `${fieldName} is required`,
+  });
+
   return (
-    <div className='fixed inset-0 z-[1111] flex items-center justify-center overflow-x-auto overflow-y-auto outline-none focus:outline-none bg-[#0000003b] bg-opacity-50'>
-      <div className='relative '>
+    <div className='fixed inset-0 z-[1111] flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none bg-[#0000003b]'>
+      <div className='relative w-full max-w-4xl mx-auto'>
         {/* Modal content */}
-        <div className='relative flex flex-col bg-white border-0 rounded-lg shadow-xl outline-none focus:outline-none w-[50vw] mx-auto h-[95vh] overflow-y-auto'>
+        <div className='relative flex flex-col w-full bg-white border-0 rounded-lg shadow-xl outline-none focus:outline-none max-h-[95vh] overflow-y-auto'>
           {/* Modal header */}
-          <div className='flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t'>
+          <div className='flex items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t sticky top-0 bg-white z-10'>
             <h3 className='text-xl font-semibold text-gray-800'>Create Task</h3>
             <button
               className='p-1 ml-auto bg-transparent border-0 text-gray-800 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
@@ -43,127 +47,146 @@ const TaskModal = ({ setTaskModal, isLoading, createError, onSubmit }) => {
               <XMarkIcon className='h-6 w-6 text-gray-500 hover:text-gray-900 transition-colors' />
             </button>
           </div>
-
           {/* Modal body */}
           <div className='relative p-6 flex-auto'>
             <form id='task-form' onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
-              <div>
-                <label htmlFor='project' className='block text-sm font-medium text-gray-700'>
-                  Project <span className='text-red-500'>*</span>
-                </label>
-                <div className='mt-1'>
-                  <select
-                    id='project'
-                    name='project'
-                    {...register('project', { required: true })}
-                    className='mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm'
-                    defaultValue='My Scrum Project (SCRUM)'
-                  >
-                    <option>My Scrum Project (SCRUM)</option>
-                    {/* Add more options here */}
-                  </select>
-                  {errors.project && (
-                    <span className='mt-1 text-sm text-red-500'>This field is required</span>
-                  )}
-                </div>
-              </div>
-
-              {/* Work Type Field */}
-              <div>
-                <label htmlFor='workType' className='block text-sm font-medium text-gray-700'>
-                  Work type <span className='text-red-500'>*</span>
-                </label>
-                <div className='mt-1'>
-                  <select
-                    id='workType'
-                    name='workType'
-                    {...register('workType', { required: true })}
-                    className='mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm'
-                    defaultValue='Feature'
-                  >
-                    <option>Feature</option>
-                    <option>Bug</option>
-                    <option>Task</option>
-                    {/* Add more options here */}
-                  </select>
-                  {errors.workType && (
-                    <span className='mt-1 text-sm text-red-500'>This field is required</span>
-                  )}
-                  <a href='#' className='mt-2 block text-sm text-blue-600 hover:text-blue-500'>
-                    Learn about work types
-                  </a>
-                </div>
-              </div>
-
-              <hr className='my-6 border-gray-200' />
-
-              {/* Status Field */}
-              <div>
-                <label htmlFor='status' className='block text-sm font-medium text-gray-700'>
-                  Status
-                </label>
-                <div className='mt-1'>
-                  <select
-                    id='status'
-                    name='status'
-                    {...register('status')}
-                    className='mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm'
-                    defaultValue='Idea'
-                  >
-                    <option>Idea</option>
-                    <option>In Progress</option>
-                    <option>Done</option>
-                  </select>
-                  <p className='mt-2 text-sm text-gray-500'>
-                    This is the initial status upon creation
-                  </p>
+              <div className=''>
+                {/* Project Field */}
+                <div>
+                  <label htmlFor='project' className='block text-sm font-medium text-gray-700'>
+                    Project <span className='text-red-500'>*</span>
+                  </label>
+                  <div className='mt-1'>
+                    <select
+                      id='project'
+                      name='project'
+                      {...register('project', allFieldsRequired('Project'))}
+                      className='mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md shadow-sm'
+                      defaultValue='My Scrum Project (SCRUM)'
+                    >
+                      <option value=''>Select a Project</option>
+                      <option>My Scrum Project (SCRUM)</option>
+                    </select>
+                    {errors.project && (
+                      <span className='mt-1 text-sm text-red-500'>{errors.project.message}</span>
+                    )}
+                  </div>
                 </div>
               </div>
               {/* Title */}
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>Title</label>
+                <label className='block text-sm font-medium text-gray-700 mb-1'>
+                  Title <span className='text-red-500'>*</span>
+                </label>
                 <input
                   type='text'
                   placeholder='Task Title'
-                  {...register('title', { required: 'Title is required' })}
+                  {...register('title', allFieldsRequired('Title'))}
                   className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
                 />
                 {errors.title && (
                   <span className='text-red-600 text-sm mt-1'>{errors.title.message}</span>
                 )}
               </div>
-
               {/* Description */}
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>Description</label>
+                <label className='block text-sm font-medium text-gray-700 mb-1'>
+                  Description <span className='text-red-500'>*</span>
+                </label>
                 <textarea
                   rows={4}
                   placeholder='Description of the task'
-                  {...register('description', { required: 'Description is required' })}
+                  {...register('description', allFieldsRequired('Description'))}
                   className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
                 />
                 {errors.description && (
                   <span className='text-red-600 text-sm mt-1'>{errors.description.message}</span>
                 )}
               </div>
-
+              {/* Status Field */}
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                <div>
+                  <label htmlFor='status' className='block text-sm font-medium text-gray-700'>
+                    Status <span className='text-red-500'>*</span>
+                  </label>
+                  <div className='mt-1'>
+                    <select
+                      id='status'
+                      name='status'
+                      {...register('status', allFieldsRequired('Status'))}
+                      className='mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md shadow-sm'
+                      defaultValue='Idea'
+                    >
+                      <option value=''>Select a Status</option>
+                      <option>Idea</option>
+                      <option>In Progress</option>
+                      <option>Done</option>
+                    </select>
+                    {errors.status && (
+                      <span className='mt-1 text-sm text-red-500'>{errors.status.message}</span>
+                    )}
+                    <p className='mt-2 text-sm text-gray-500'>
+                      This is the initial status upon creation
+                    </p>
+                  </div>
+                </div>
+                {/* Work Type Field */}
+                <div>
+                  <label htmlFor='workType' className='block text-sm font-medium text-gray-700'>
+                    Work type <span className='text-red-500'>*</span>
+                  </label>
+                  <div className='mt-1'>
+                    <select
+                      id='workType'
+                      name='workType'
+                      {...register('workType', allFieldsRequired('Work type'))}
+                      className='mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md shadow-sm'
+                      defaultValue='Feature'
+                    >
+                      <option value=''>Select a Work type</option>
+                      <option>Feature</option>
+                      <option>Bug</option>
+                      <option>Task</option>
+                    </select>
+                    {errors.workType && (
+                      <span className='mt-1 text-sm text-red-500'>{errors.workType.message}</span>
+                    )}
+                    <a href='#' className='mt-2 text-sm text-gray-500 pt-2'>
+                      Learn about work types
+                    </a>
+                  </div>
+                </div>
+              </div>
               {/* Grid for two-column fields */}
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                {/* Deadline */}
+                {/* Team */}
                 <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>Deadline</label>
-                  <input
-                    type='date'
-                    {...register('deadline')}
-                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                  />
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Team <span className='text-red-500'>*</span>
+                  </label>
+                  <select
+                    {...register('team', allFieldsRequired('Team'))}
+                    className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                    defaultValue='none'
+                  >
+                    <option value='none' disabled>
+                      None
+                    </option>
+                    <option value='frontend'>Frontend</option>
+                    <option value='backend'>Backend</option>
+                  </select>
+                  {errors.team && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.team.message}</span>
+                  )}
                 </div>
 
                 {/* Assignee */}
                 <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>Assign to</label>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Assign to <span className='text-red-500'>*</span>
+                  </label>
                   <select
-                    {...register('assignTo')}
+                    {...register('assignTo', allFieldsRequired('Assignee'))}
                     className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
                     defaultValue=''
                   >
@@ -174,15 +197,20 @@ const TaskModal = ({ setTaskModal, isLoading, createError, onSubmit }) => {
                     <option value='john'>John</option>
                     <option value='other'>Other</option>
                   </select>
+                  {errors.assignTo && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.assignTo.message}</span>
+                  )}
                 </div>
               </div>
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                 {/* Priority */}
                 <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>Priority</label>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Priority <span className='text-red-500'>*</span>
+                  </label>
                   <select
-                    {...register('priority')}
+                    {...register('priority', allFieldsRequired('Priority'))}
                     className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
                     defaultValue='High'
                   >
@@ -190,160 +218,210 @@ const TaskModal = ({ setTaskModal, isLoading, createError, onSubmit }) => {
                     <option value='Medium'>Medium</option>
                     <option value='Low'>Low</option>
                   </select>
+                  {errors.priority && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.priority.message}</span>
+                  )}
                 </div>
-
-                {/* Parent */}
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>Parent</label>
-                  <input
-                    type='text'
-                    placeholder='Parent Task'
-                    {...register('parent')}
-                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                  />
-                </div>
-              </div>
-
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                {/* Start Date */}
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>Start Date</label>
-                  <input
-                    type='date'
-                    {...register('startDate')}
-                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                  />
-                </div>
-
                 {/* Labels */}
                 <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>Labels</label>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Labels <span className='text-red-500'>*</span>
+                  </label>
                   <input
                     type='text'
                     placeholder='Enter labels (e.g., bug, feature)'
-                    {...register('labels')}
+                    {...register('labels', allFieldsRequired('Labels'))}
                     className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
                   />
+                  {errors.labels && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.labels.message}</span>
+                  )}
+                </div>
+                {/* Parent */}
+                {/* <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Parent <span className='text-red-500'>*</span>
+                  </label>
+                  <input
+                    type='text'
+                    placeholder='Parent Task'
+                    {...register('parent', allFieldsRequired('Parent'))}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                  {errors.parent && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.parent.message}</span>
+                  )}
+                </div> */}
+              </div>
+
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                {/* Deadline */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Deadline <span className='text-red-500'>*</span>
+                  </label>
+                  <input
+                    type='date'
+                    {...register('deadline', allFieldsRequired('Deadline'))}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                  {errors.deadline && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.deadline.message}</span>
+                  )}
+                </div>
+                {/* Start Date */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Start Date <span className='text-red-500'>*</span>
+                  </label>
+                  <input
+                    type='date'
+                    {...register('startDate', allFieldsRequired('Start Date'))}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                  {errors.startDate && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.startDate.message}</span>
+                  )}
                 </div>
               </div>
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                {/* Team */}
+                {/* Restricted To */}
                 <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>Team</label>
-                  <select
-                    {...register('team')}
-                    className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                  >
-                    <option value='none'>None</option>
-                    <option value='frontend'>Frontend</option>
-                    <option value='backend'>Backend</option>
-                  </select>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Restricted To <span className='text-red-500'>*</span>
+                  </label>
+                  <input
+                    type='text'
+                    placeholder='Restrict to a specific user or group'
+                    {...register('restrictedTo', allFieldsRequired('Restricted To'))}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                  {errors.restrictedTo && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.restrictedTo.message}</span>
+                  )}
                 </div>
-
-                {/* Sprint */}
+                {/* Reporter */}
                 <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>Sprint</label>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Reporter <span className='text-red-500'>*</span>
+                  </label>
+                  <input
+                    type='text'
+                    placeholder='Reporter name'
+                    {...register('reporter', allFieldsRequired('Reporter'))}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                  {errors.reporter && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.reporter.message}</span>
+                  )}
+                </div>
+                {/* Sprint */}
+                {/* <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Sprint <span className='text-red-500'>*</span>
+                  </label>
                   <select
-                    {...register('sprint')}
+                    {...register('sprint', allFieldsRequired('Sprint'))}
                     className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                    defaultValue='none'
                   >
-                    <option value='none'>None</option>
+                    <option value='none' disabled>
+                      None
+                    </option>
                     <option value='sprint1'>Sprint 1</option>
                     <option value='sprint2'>Sprint 2</option>
                   </select>
-                </div>
+                  {errors.sprint && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.sprint.message}</span>
+                  )}
+                </div> */}
               </div>
 
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                {/* Story Points */}
+              {/* <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                Story Points
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
-                    Story Points
+                    Story Points <span className='text-red-500'>*</span>
                   </label>
                   <input
                     type='number'
                     placeholder='e.g., 5'
-                    {...register('storyPoints')}
+                    {...register('storyPoints', allFieldsRequired('Story Points'))}
                     className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
                   />
+                  {errors.storyPoints && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.storyPoints.message}</span>
+                  )}
                 </div>
-
-                {/* Reporter */}
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>Reporter</label>
-                  <input
-                    type='text'
-                    placeholder='Reporter name'
-                    {...register('reporter')}
-                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                  />
-                </div>
-              </div>
+              </div> */}
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                 {/* Relation */}
                 <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>Relation</label>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Relation <span className='text-red-500'>*</span>
+                  </label>
                   <select
-                    {...register('relation')}
+                    {...register('relation', allFieldsRequired('Relation'))}
                     className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
                   >
-                    <option value='blocks'>Blocks</option>
-                    <option value='relates'>Relates</option>
+                    <option value='setting' className='capitalize'>
+                      setting
+                    </option>
+                    <option value='profile' className='capitalize'>
+                      profile
+                    </option>
                   </select>
+                  {errors.relation && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.relation.message}</span>
+                  )}
                 </div>
 
                 {/* Related URL */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
-                    Related URL
+                    Related URL <span className='text-red-500'>*</span>
                   </label>
                   <input
                     type='url'
                     placeholder='https://example.com'
-                    {...register('relatedUrl')}
+                    {...register('relatedUrl', allFieldsRequired('Related URL'))}
                     className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
                   />
+                  {errors.relatedUrl && (
+                    <span className='text-red-600 text-sm mt-1'>{errors.relatedUrl.message}</span>
+                  )}
                 </div>
               </div>
 
-              {/* Restricted To */}
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>
-                  Restricted To
-                </label>
-                <input
-                  type='text'
-                  placeholder='Restrict to a specific user or group'
-                  {...register('restrictedTo')}
-                  className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                />
-              </div>
-
               {/* Flags & Create Another */}
-              <div className='flex items-center space-x-4'>
-                <label className='flex items-center space-x-2 text-gray-700'>
+              <div className=''>
+                <h2 className='block text-base  font-medium text-gray-700'>Impediment</h2>
+                <p className='text-[#6A7282] text-sm'>Allows to flag issues with impediments.</p>
+                <label className='flex items-center space-x-2 text-gray-700 pt-2'>
                   <input
                     type='checkbox'
                     {...register('flagged')}
-                    className='h-4 w-4 text-blue-600 border-gray-300 rounded'
+                    className='h-4 w-4 text-blue-600 border-gray-300 rounded block'
                   />
-                  <span>Flagged</span>
+                  <span>Impediment</span>
                 </label>
-                <label className='flex items-center space-x-2 text-gray-700'>
+                {/* <label className='flex items-center space-x-2 text-gray-700'>
                   <input
                     type='checkbox'
                     {...register('createAnother')}
                     className='h-4 w-4 text-blue-600 border-gray-300 rounded'
                   />
                   <span>Create another</span>
-                </label>
+                </label> */}
               </div>
 
               {/* Attachment Section */}
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>Attachment</label>
+                <label className='block text-sm font-medium text-gray-700 mb-1'>
+                  Attachment <span className='text-red-500'>*</span>
+                </label>
                 <div className='mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6'>
                   <div className='space-y-1 text-center'>
                     <CloudArrowUpIcon className='mx-auto h-12 w-12 text-gray-400' />
@@ -353,10 +431,20 @@ const TaskModal = ({ setTaskModal, isLoading, createError, onSubmit }) => {
                         className='relative cursor-pointer rounded-md bg-white font-medium text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 hover:text-blue-500'
                       >
                         <span>Upload a file</span>
-                        <input id='file-upload' type='file' className='sr-only' />
+                        <input
+                          id='file-upload'
+                          type='file'
+                          className='sr-only'
+                          {...register('file-upload', allFieldsRequired('Attachment'))}
+                        />
                       </label>
                       <p className='pl-1'>or drag and drop</p>
                     </div>
+                    {errors['file-upload'] && (
+                      <span className='text-red-600 text-sm mt-1'>
+                        {errors['file-upload'].message}
+                      </span>
+                    )}
                     <p className='text-xs text-gray-500'>PNG, JPG, GIF up to 10MB</p>
                   </div>
                 </div>
@@ -365,7 +453,7 @@ const TaskModal = ({ setTaskModal, isLoading, createError, onSubmit }) => {
           </div>
 
           {/* Modal footer */}
-          <div className='flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b'>
+          <div className='flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b sticky bottom-0 bg-white z-10'>
             {/* API Error */}
             {createError && (
               <p className='text-red-600 text-sm mr-auto'>
