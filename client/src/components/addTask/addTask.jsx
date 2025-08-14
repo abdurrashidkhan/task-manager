@@ -1,52 +1,38 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { createTask } from '../../redux/stores/tasks/action';
-import { useCreateTaskMutation, useGetTasksQuery } from '../../redux/stores/api/tasksBaseApi';
-import { createTaskAPI } from '../../redux/stores/tasks/api';
 import { XMarkIcon, CloudArrowUpIcon } from '@heroicons/react/24/outline';
 
-const AddTaskForm = ({ setTaskModal }) => {
-  const dispatch = useDispatch();
-  const { loading = false, error: createError = null } = useSelector((state) => state.tasks || {});
-
-  // ✅ Ensure the hook exists and prevent crashes
-  const { refetch } = useGetTasksQuery?.() || { refetch: () => {} };
-  const [createTask, { isLoading, error, isError, isSuccess }] = useCreateTaskMutation();
+const TaskModal = ({ setTaskModal, isLoading, createError, onSubmit }) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      title: '',
+      description: '',
+      deadline: '',
+      assignTo: '',
+      priority: 'High',
+      parent: '',
+      labels: '',
+      team: 'none',
+      startDate: '',
+      sprint: 'none',
+      storyPoints: '',
+      reporter: 'Rashid khan',
+      relation: 'blocks',
+      relatedUrl: '',
+      restrictedTo: '',
+      flagged: false,
+      createAnother: false,
+    },
+  });
 
-  const onSubmit = async (data) => {
-    const taskData = {
-      title: data?.title,
-      description: data?.description,
-      assignTo: data?.assignTo,
-      deadline: data?.deadline,
-      assignDate: new Date(),
-      status: 'next-up',
-      priority: data?.priority || 'High',
-    };
-
-    try {
-      await dispatch(createTask(taskData));
-      refetch();
-      reset();
-    } catch (err) {
-      console.error('Task creation failed:', err);
-    }
-  };
-  if (error) {
-    console.log(error.message, 'Error creating task');
-  }
   return (
-    <div className='fixed  inset-0 z-50 flex items-center justify-center overflow-x-auto overflow-y-auto outline-none focus:outline-none bg-[#05050546] '>
-      <div className='relative h-[80%] w-full max-w-3xl mx-auto overflow-y-auto rounded'>
+    <div className='fixed inset-0 z-[1111] flex items-center justify-center overflow-x-auto overflow-y-auto outline-none focus:outline-none bg-[#0000003b] bg-opacity-50'>
+      <div className='relative '>
         {/* Modal content */}
-        <div className='relative flex flex-col w-full bg-white border-0 shadow-xl outline-none focus:outline-none rounded'>
+        <div className='relative flex flex-col bg-white border-0 rounded-lg shadow-xl outline-none focus:outline-none w-[50vw] mx-auto h-[95vh] overflow-y-auto'>
           {/* Modal header */}
           <div className='flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t'>
             <h3 className='text-xl font-semibold text-gray-800'>Create Task</h3>
@@ -54,7 +40,7 @@ const AddTaskForm = ({ setTaskModal }) => {
               className='p-1 ml-auto bg-transparent border-0 text-gray-800 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
               onClick={() => setTaskModal(false)}
             >
-              <XMarkIcon className='h-6 w-6 text-[#000] hover:text-[#fff] outline outline-[#c20404] hover:bg-[#990a0a]  shadow-2xl rounded transition duration-500 ease-in-out hover' />
+              <XMarkIcon className='h-6 w-6 text-gray-500 hover:text-gray-900 transition-colors' />
             </button>
           </div>
 
@@ -66,15 +52,11 @@ const AddTaskForm = ({ setTaskModal }) => {
                 <label className='block text-sm font-medium text-gray-700 mb-1'>Title</label>
                 <input
                   type='text'
-                  placeholder='Title'
-                  {...register('title', { required: true, minLength: 100 })}
+                  placeholder='Task Title'
+                  {...register('title', { required: 'Title is required' })}
                   className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
                 />
-                {errors?.title && (
-                  <span className='text-red-600 text-sm mt-1'>
-                    {errors.title.message || 'This field is required'}
-                  </span>
-                )}
+                {errors.title && <span className='text-red-600 text-sm mt-1'>{errors.title.message}</span>}
               </div>
 
               {/* Description */}
@@ -82,68 +64,192 @@ const AddTaskForm = ({ setTaskModal }) => {
                 <label className='block text-sm font-medium text-gray-700 mb-1'>Description</label>
                 <textarea
                   rows={4}
-                  placeholder='Description'
-                  {...register('description', { required: true, minLength: 100 })}
+                  placeholder='Description of the task'
+                  {...register('description', { required: 'Description is required' })}
                   className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
                 />
-                {errors?.description && (
-                  <span className='text-red-600 text-sm mt-1'>
-                    {errors.description.message || 'This field is required'}
-                  </span>
-                )}
+                {errors.description && <span className='text-red-600 text-sm mt-1'>{errors.description.message}</span>}
               </div>
 
-              {/* Deadline */}
+              {/* Grid for two-column fields */}
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                {/* Deadline */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Deadline</label>
+                  <input
+                    type='date'
+                    {...register('deadline')}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                </div>
+
+                {/* Assignee */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Assign to</label>
+                  <select
+                    {...register('assignTo')}
+                    className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                    defaultValue=''
+                  >
+                    <option value='' disabled>Select Assignee</option>
+                    <option value='rashidkhan'>Rashid Khan</option>
+                    <option value='john'>John</option>
+                    <option value='other'>Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                {/* Priority */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Priority</label>
+                  <select
+                    {...register('priority')}
+                    className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                    defaultValue='High'
+                  >
+                    <option value='High'>High</option>
+                    <option value='Medium'>Medium</option>
+                    <option value='Low'>Low</option>
+                  </select>
+                </div>
+
+                {/* Parent */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Parent</label>
+                  <input
+                    type='text'
+                    placeholder='Parent Task'
+                    {...register('parent')}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                </div>
+              </div>
+
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                {/* Start Date */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Start Date</label>
+                  <input
+                    type='date'
+                    {...register('startDate')}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                </div>
+
+                {/* Labels */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Labels</label>
+                  <input
+                    type='text'
+                    placeholder='Enter labels (e.g., bug, feature)'
+                    {...register('labels')}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                </div>
+              </div>
+
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                {/* Team */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Team</label>
+                  <select
+                    {...register('team')}
+                    className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  >
+                    <option value='none'>None</option>
+                    <option value='frontend'>Frontend</option>
+                    <option value='backend'>Backend</option>
+                  </select>
+                </div>
+
+                {/* Sprint */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Sprint</label>
+                  <select
+                    {...register('sprint')}
+                    className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  >
+                    <option value='none'>None</option>
+                    <option value='sprint1'>Sprint 1</option>
+                    <option value='sprint2'>Sprint 2</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                {/* Story Points */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Story Points</label>
+                  <input
+                    type='number'
+                    placeholder='e.g., 5'
+                    {...register('storyPoints')}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                </div>
+
+                {/* Reporter */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Reporter</label>
+                  <input
+                    type='text'
+                    placeholder='Reporter name'
+                    {...register('reporter')}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                </div>
+              </div>
+
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                {/* Relation */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Relation</label>
+                  <select
+                    {...register('relation')}
+                    className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  >
+                    <option value='blocks'>Blocks</option>
+                    <option value='relates'>Relates</option>
+                  </select>
+                </div>
+
+                {/* Related URL */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>Related URL</label>
+                  <input
+                    type='url'
+                    placeholder='https://example.com'
+                    {...register('relatedUrl')}
+                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
+                  />
+                </div>
+              </div>
+
+              {/* Restricted To */}
               <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>Deadline</label>
+                <label className='block text-sm font-medium text-gray-700 mb-1'>Restricted To</label>
                 <input
-                  type='date'
-                  {...register('deadline', { required: true, minLength: 100 })}
+                  type='text'
+                  placeholder='Restrict to a specific user or group'
+                  {...register('restrictedTo')}
                   className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
                 />
-                {errors?.deadline && (
-                  <span className='text-red-600 text-sm mt-1'>
-                    {errors.deadline.message || 'This field is required'}
-                  </span>
-                )}
               </div>
 
-              {/* Assignee */}
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>Assign to</label>
-                <select
-                  {...register('assignTo', { required: true, minLength: 100 })}
-                  className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                  defaultValue=''
-                >
-                  <option value='' disabled>
-                    Select Assignee
-                  </option>
-                  <option value='rashidkhan'>Rashid Khan</option>
-                  <option value='Other'>Other</option>
-                </select>
-                {errors?.assignTo && (
-                  <span className='text-red-600 text-sm mt-1'>
-                    {errors.assignTo.message || 'This field is required'}
-                  </span>
-                )}
+              {/* Flags & Create Another */}
+              <div className='flex items-center space-x-4'>
+                <label className='flex items-center space-x-2 text-gray-700'>
+                  <input type='checkbox' {...register('flagged')} className='h-4 w-4 text-blue-600 border-gray-300 rounded' />
+                  <span>Flagged</span>
+                </label>
+                <label className='flex items-center space-x-2 text-gray-700'>
+                  <input type='checkbox' {...register('createAnother')} className='h-4 w-4 text-blue-600 border-gray-300 rounded' />
+                  <span>Create another</span>
+                </label>
               </div>
 
-              {/* Priority */}
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>Priority</label>
-                <select
-                  {...register('priority', { required: true, minLength: 100 })}
-                  className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                  defaultValue='High'
-                >
-                  <option value='High'>High</option>
-                  <option value='Medium'>Medium</option>
-                  <option value='Low'>Low</option>
-                </select>
-              </div>
-
-              {/* Attachment Section (styled to match the screenshot) */}
+              {/* Attachment Section */}
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-1'>Attachment</label>
                 <div className='mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6'>
@@ -155,7 +261,6 @@ const AddTaskForm = ({ setTaskModal }) => {
                         className='relative cursor-pointer rounded-md bg-white font-medium text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 hover:text-blue-500'
                       >
                         <span>Upload a file</span>
-                        {/* Hidden file input for a custom upload button */}
                         <input id='file-upload' type='file' className='sr-only' />
                       </label>
                       <p className='pl-1'>or drag and drop</p>
@@ -172,9 +277,7 @@ const AddTaskForm = ({ setTaskModal }) => {
             {/* API Error */}
             {createError && (
               <p className='text-red-600 text-sm mr-auto'>
-                {typeof createError === 'string'
-                  ? createError
-                  : createError?.message || 'Failed to create task'}
+                {typeof createError === 'string' ? createError : createError?.message || 'Failed to create task'}
               </p>
             )}
             <div className='flex space-x-2'>
@@ -190,9 +293,7 @@ const AddTaskForm = ({ setTaskModal }) => {
                 form='task-form' // Link button to the form
                 disabled={isLoading}
                 className={`px-5 py-2 rounded font-semibold transition-colors ${
-                  isLoading
-                    ? 'bg-blue-400 cursor-not-allowed'
-                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                  isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 text-white'
                 }`}
               >
                 {isLoading ? 'Creating...' : 'Add Task'}
@@ -205,4 +306,4 @@ const AddTaskForm = ({ setTaskModal }) => {
   );
 };
 
-export default AddTaskForm;
+export default TaskModal;
