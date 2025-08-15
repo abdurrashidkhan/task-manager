@@ -1,11 +1,15 @@
 import { useForm } from 'react-hook-form';
 import { XMarkIcon, CloudArrowUpIcon } from '@heroicons/react/24/outline';
-
-const TaskModal = ({ setTaskModal, isLoading, createError, onSubmit }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { createTask } from "../../redux/stores/tasks/action";
+const TaskModal = ({ setTaskModal }) => {
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.tasks);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     defaultValues: {
       title: '',
@@ -27,6 +31,35 @@ const TaskModal = ({ setTaskModal, isLoading, createError, onSubmit }) => {
       createAnother: false,
     },
   });
+
+  const onSubmit = (data) => {
+  // The 'data' object will contain all the form values
+  
+  // You can access individual fields like:
+  const taskDetails = {
+    project: data.project,
+    title: data.title,
+    description: data.description,
+    status: data.status,
+    type: data.workType,
+    team: data.team,
+    assignee: data.assignTo,
+    priority: data.priority,
+    labels: data.labels.split(',').map(label => label.trim()), // Convert comma-separated string to array
+    deadline: data.deadline,
+    startDate: data.startDate,
+    restrictions: data.restrictedTo,
+    reporter: data.reporter,
+    relation: data.relation,
+    url: data.relatedUrl,
+    isImpediment: data.flagged,
+    attachment: data['file-upload'] 
+  };
+
+    dispatch(createTask(taskDetails));
+    reset();
+    setTaskModal(false);
+  };
 
   const allFieldsRequired = (fieldName) => ({
     required: `${fieldName} is required`,
@@ -455,11 +488,11 @@ const TaskModal = ({ setTaskModal, isLoading, createError, onSubmit }) => {
           {/* Modal footer */}
           <div className='flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b sticky bottom-0 bg-white z-10'>
             {/* API Error */}
-            {createError && (
+            {error?.message && (
               <p className='text-red-600 text-sm mr-auto'>
-                {typeof createError === 'string'
-                  ? createError
-                  : createError?.message || 'Failed to create task'}
+                {typeof error?.message === 'string'
+                  ? error?.message
+                  : error?.message || 'Failed to create task'}
               </p>
             )}
             <div className='flex space-x-2'>
@@ -473,14 +506,14 @@ const TaskModal = ({ setTaskModal, isLoading, createError, onSubmit }) => {
               <button
                 type='submit'
                 form='task-form' // Link button to the form
-                disabled={isLoading}
+                disabled={loading}
                 className={`px-5 py-2 rounded font-semibold transition-colors ${
-                  isLoading
+                  loading
                     ? 'bg-blue-400 cursor-not-allowed'
                     : 'bg-blue-600 hover:bg-blue-700 text-white'
                 }`}
               >
-                {isLoading ? 'Creating...' : 'Add Task'}
+                {loading ? 'Creating...' : 'Add Task'}
               </button>
             </div>
           </div>
