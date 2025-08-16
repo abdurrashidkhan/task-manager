@@ -33,34 +33,60 @@ const TaskCard = ({ option }) => {
   // const { data, isLoading, isError, error } = useCreateTaskMutation(task);
   // console.log(data , ' =============>')
   return (
-    <div className=" rounded-md p-5 bg-[#fff] shadow-md my-3">
-      <h1
-        className={`text-lg font-semibold mb-3  ${task.priority === 'high' ? 'text-red-500' : ''
-          } ${task.priority === 'medium' ? 'text-yellow-500' : ''} ${task.priority === 'low' ? 'text-green-500' : ''
-          }`}
+    <div className="rounded-xl p-5 bg-white shadow-lg hover:shadow-xl transition-all my-4 border border-gray-100">
+  {/* Title with priority color */}
+  <h1
+    className={`text-lg font-bold mb-2 
+      ${task.priority === "high" ? "text-red-600" : ""} 
+      ${task.priority === "medium" ? "text-yellow-500" : ""} 
+      ${task.priority === "low" ? "text-green-600" : ""}`}
+  >
+    {task?.title}
+  </h1>
+
+  {/* Description */}
+  <p className="text-gray-600 mb-3">{task?.description}</p>
+
+  {/* Assigned to */}
+  <p className="text-sm text-gray-500 italic">
+    Assigned to: <span className="font-medium text-gray-700">{task?.assignedTo}</span>
+  </p>
+
+  {/* Footer */}
+  <div className="flex justify-between items-center mt-4">
+    <p className="text-xs text-gray-400">{task?.date}</p>
+
+    <div className="flex gap-3">
+      {/* Delete Button */}
+      <button
+        onClick={() => handelClick(task.id)}
+        title="Delete"
+        disabled={task.status === "archiver"}
+        className={`p-2 rounded-lg transition ${
+          task.status === "archiver"
+            ? "cursor-not-allowed opacity-40"
+            : "hover:bg-red-100"
+        }`}
       >
-        {task?.title}
-      </h1>
-      <p className="mb-3">{task?.description}</p>
-      <p className="text-sm">Assigned to - {task?.assignedTo}</p>
-      <div className="flex justify-between mt-3">
-        <p>{task?.date}</p>
-        <div className="flex gap-3">
-          <button onClick={() => handelClick(task.id)} title="Delete" disabled={task.status === 'archiver' ? true : false} className='hover:cursor-pointer '>
-            <TrashIcon className="h-5 w-5 text-red-500" />
-          </button>
-          <button
-            onClick={() =>
-              dispatch(updateStatus({ id: task.id, status: status }))
-            }
-            title={task.status}
-            disabled={task.status === 'archiver'} className={`${task.status === 'archiver' ? 'cursor-not-allowed' : 'hover:cursor-pointer'} `}
-          >
-            <ArrowRightIcon className="h-5 w-5 text-primary" />
-          </button>
-        </div>
-      </div>
+        <TrashIcon className="h-5 w-5 text-red-500" />
+      </button>
+
+      {/* Status Update Button */}
+      <button
+        onClick={() => dispatch(updateStatus({ id: task.id, status: status }))}
+        title={task.status}
+        disabled={task.status === "archiver"}
+        className={`p-2 rounded-lg transition ${
+          task.status === "archiver"
+            ? "cursor-not-allowed opacity-40"
+            : "hover:bg-blue-100"
+        }`}
+      >
+        <ArrowRightIcon className="h-5 w-5 text-blue-500" />
+      </button>
     </div>
+  </div>
+</div>
    
   );
 };

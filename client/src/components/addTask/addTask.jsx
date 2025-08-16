@@ -37,7 +37,7 @@ const TaskModal = ({ setTaskModal }) => {
     const taskImage = data?.taskImage[0];
     if (taskImage) {
       formData.append('file', taskImage);
-      formData.append('upload_preset', 'images_preset'); // Update with your preset name
+      formData.append('upload_preset', 'tasks_preset'); // Update with your preset name
       const imageResponse = await fetch(`https://api.cloudinary.com/v1_1/dqsqaozc0/upload`, {
         method: 'POST',
         body: formData,
