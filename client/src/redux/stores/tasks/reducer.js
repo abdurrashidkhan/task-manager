@@ -18,17 +18,17 @@ const taskSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Fetch Tasks
-      // .addCase(fetchTasks.pending, (state) => {
-      //   state.loading = true;
-      // })
-      // .addCase(fetchTasks.fulfilled, (state, action) => {
-      //   state.loading = false;
-      //   state.list = action.payload;
-      // })
-      // .addCase(fetchTasks.rejected, (state, action) => {
-      //   state.loading = false;
-      //   state.error = action.error.message;
-      // })
+      .addCase(fetchTasks.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchTasks.fulfilled, (state, action) => {
+        state.loading = false;
+        state.tasks = action.payload;
+      })
+      .addCase(fetchTasks.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
 
       // Add Task
       

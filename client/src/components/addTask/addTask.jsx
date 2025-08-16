@@ -148,9 +148,8 @@ const TaskModal = ({ setTaskModal }) => {
                       defaultValue='Idea'
                     >
                       <option value=''>Select a Status</option>
-                      <option>Idea</option>
-                      <option>In Progress</option>
-                      <option>Done</option>
+                      <option value={'to-do'}>To Do</option>
+                      <option value={'in-progress'}>In Progress</option>
                     </select>
                     {errors.status && (
                       <span className='mt-1 text-sm text-red-500'>{errors.status.message}</span>
@@ -242,11 +241,11 @@ const TaskModal = ({ setTaskModal }) => {
                   <select
                     {...register('priority', allFieldsRequired('Priority'))}
                     className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                    defaultValue='High'
+                    defaultValue='high'
                   >
-                    <option value='High'>High</option>
-                    <option value='Medium'>Medium</option>
-                    <option value='Low'>Low</option>
+                    <option value='high'>High</option>
+                    <option value='medium'>Medium</option>
+                    <option value='low'>Low</option>
                   </select>
                   {errors.priority && (
                     <span className='text-red-600 text-sm mt-1'>{errors.priority.message}</span>

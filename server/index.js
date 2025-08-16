@@ -22,6 +22,7 @@ async function run() {
   try {
     await client.connect();
     const tasks = client.db('tasks-manager').collection('tasks');
+
     app.post('/create-task', async (req, res) => {
       const task = req.body;
       try {
@@ -40,6 +41,8 @@ async function run() {
         });
       }
     })
+
+    
     app.get('/tasks', async (req, res) => {
       try {
         const result = await tasks.find().toArray()
