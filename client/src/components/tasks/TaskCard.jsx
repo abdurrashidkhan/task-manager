@@ -38,9 +38,15 @@ const TaskCard = ({ option }) => {
   // console.log(data , ' =============>')
   return (
     <div className='rounded bg-white shadow-lg hover:shadow-xl transition-all my-4 border border-gray-100'>
-      <div className=''>
-        <img className='w-full h-auto rounded-t shadow-xl' src={task?.image} alt={task?.title} />
-      </div>
+      <div className="w-full h-[200px] flex items-center justify-center bg-gray-100 rounded">
+  <img 
+    className="max-h-full max-w-full object-contain" 
+    src={task?.image} 
+    alt={task?.title} 
+  />
+</div>
+
+
       <div className='p-5'>
         <div className=''>
           {/* Title with priority color */}
