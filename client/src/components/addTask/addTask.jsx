@@ -63,6 +63,7 @@ const TaskModal = ({ setTaskModal }) => {
           url: data.relatedUrl,
           isImpediment: data.flagged,
           attachment: image,
+          assigneeDate: new Date()
         };
         dispatch(addTask(taskDetails));
         reset();
