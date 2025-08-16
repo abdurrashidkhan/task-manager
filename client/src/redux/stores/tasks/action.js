@@ -1,15 +1,16 @@
+//  action creators 
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createTaskAPI } from "./api";
+import { fetchTasksApi, addTaskApi } from "./api";
 
-// used thunk
-export const createTask = createAsyncThunk(
-  "tasks/createTask",
-  async (taskData, { rejectWithValue }) => {
-    try {
-      const data = await createApi(taskData);
-      return data;
-    } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
-    }
-  }
-);
+//  Task Load Action
+export const fetchTasks = createAsyncThunk("/tasks", async () => {
+  const data = await fetchTasksApi();
+  return data;
+});
+
+// Task Add Action
+export const addTask = createAsyncThunk("/create-task", async (task) => {
+  const data = await addTaskApi(task);
+  return data;
+});
+

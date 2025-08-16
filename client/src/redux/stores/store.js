@@ -1,14 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import tasksReducer from "./tasks/reducer";
-import baseApi from "../stores/api/tasksBaseApi";
+import taskReducer from "./tasks/reducer";
 
 const store = configureStore({
   reducer: {
-    [baseApi.reducerPath]: baseApi.reducer,
-    tasks: tasksReducer,
+    tasks: taskReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(baseApi.middleware),
 });
 
 export default store;

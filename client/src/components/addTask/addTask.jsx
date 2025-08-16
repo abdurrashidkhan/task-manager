@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { XMarkIcon, CloudArrowUpIcon } from '@heroicons/react/24/outline';
 import { useDispatch, useSelector } from "react-redux";
-import { createTask } from "../../redux/stores/tasks/action";
+import { addTask } from "../../redux/stores/tasks/action";
 const TaskModal = ({ setTaskModal }) => {
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.tasks);
@@ -33,9 +33,6 @@ const TaskModal = ({ setTaskModal }) => {
   });
 
   const onSubmit = (data) => {
-  // The 'data' object will contain all the form values
-  
-  // You can access individual fields like:
   const taskDetails = {
     project: data.project,
     title: data.title,
@@ -45,7 +42,7 @@ const TaskModal = ({ setTaskModal }) => {
     team: data.team,
     assignee: data.assignTo,
     priority: data.priority,
-    labels: data.labels.split(',').map(label => label.trim()), // Convert comma-separated string to array
+    labels: data.labels.split(',').map(label => label.trim()),
     deadline: data.deadline,
     startDate: data.startDate,
     restrictions: data.restrictedTo,
@@ -56,7 +53,7 @@ const TaskModal = ({ setTaskModal }) => {
     attachment: data['file-upload'] 
   };
 
-    dispatch(createTask(taskDetails));
+    dispatch(addTask(taskDetails));
     reset();
     setTaskModal(false);
   };

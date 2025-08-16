@@ -1,30 +1,51 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createTask } from "./action";
+import { fetchTasks, addTask } from "./action";
+
+const initialState = {
+  tasks: [],
+  loading: false,
+  error: null,
+};
 
 const taskSlice = createSlice({
   name: "tasks",
-  initialState: {
-    tasks: [],
-    loading: false,
-    error: null,
+  initialState,
+  reducers: {
+    removeTask: (state, action) => {
+      state.list = state.list.filter((task) => task.id !== action.payload);
+    },
   },
-  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createTask.pending, (state) => {
+      // Fetch Tasks
+      // .addCase(fetchTasks.pending, (state) => {
+      //   state.loading = true;
+      // })
+      // .addCase(fetchTasks.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.list = action.payload;
+      // })
+      // .addCase(fetchTasks.rejected, (state, action) => {
+      //   state.loading = false;
+      //   state.error = action.error.message;
+      // })
+
+      // Add Task
+      
+      .addCase(addTask.pending, (state) => {
         state.loading = true;
-        state.error = null;
       })
-      .addCase(createTask.fulfilled, (state, action) => {
-        state.loading = false;
+      .addCase(addTask.fulfilled, (state, action) => {
         state.tasks.push(action.payload);
-      })
-      .addCase(createTask.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
-      });
+      })
+      .addCase(addTask.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      
   },
 });
 
+export const { removeTask } = taskSlice.actions;
 export default taskSlice.reducer;
-

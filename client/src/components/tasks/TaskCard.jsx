@@ -1,37 +1,37 @@
 import { ArrowRightIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useDispatch } from 'react-redux';
 import { removeTask, updateStatus } from '../../redux/task/task';
-import { useCreateTaskMutation } from '../../redux/stores/api/tasksBaseApi';
+// import { useCreateTaskMutation } from '../../redux/stores/api/tasksBaseApi';
 
 
 const TaskCard = ({ option }) => {
-  const dispatch = useDispatch()
-  const task = {
-    id: option?.id,
-    status: option?.status,
-    description: option?.description,
-    date: option?.assignDate.toString(),
-    assignedTo: option?.assignTo,
-    priority: option?.status,
-  };
+  // const dispatch = useDispatch()
+  // const task = {
+  //   id: option?.id,
+  //   status: option?.status,
+  //   description: option?.description,
+  //   date: option?.assignDate.toString(),
+  //   assignedTo: option?.assignTo,
+  //   priority: option?.status,
+  // };
 
   // checking status and update status
-  let status;
-  if (task.status === 'next-up') {
-    status = 'in-process'
-  } else if (task.status === 'in-process') {
-    status = 'submitted'
-  } else if (task.status === 'submitted') {
-    status = 'done'
-  } else {
-    status = 'archiver'
-  }
+  // let status;
+  // if (task.status === 'next-up') {
+  //   status = 'in-process'
+  // } else if (task.status === 'in-process') {
+  //   status = 'submitted'
+  // } else if (task.status === 'submitted') {
+  //   status = 'done'
+  // } else {
+  //   status = 'archiver'
+  // }
 
-  const handelClick = (id) => {
-    dispatch(removeTask(id))
-  }
-  const { data, isLoading, isError, error } = useCreateTaskMutation(task);
-  console.log(data , ' =============>')
+  // const handelClick = (id) => {
+  //   dispatch(removeTask(id))
+  // }
+  // const { data, isLoading, isError, error } = useCreateTaskMutation(task);
+  // console.log(data , ' =============>')
   return (
     // <div className=" rounded-md p-5 bg-[#fff] shadow-md my-3">
     //   <h1
@@ -62,9 +62,9 @@ const TaskCard = ({ option }) => {
     //   </div>
     // </div>
     <ul>
-      {
+      {/* {
         data?.map(post => console.log(post,'--------------'))
-      }
+      } */}
     </ul>
    
   );
