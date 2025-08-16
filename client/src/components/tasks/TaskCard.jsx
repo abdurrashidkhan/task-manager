@@ -14,7 +14,7 @@ const TaskCard = ({ option }) => {
     assignedTo: option?.assignTo,
     priority: option?.status,
   };
-console.log(option, 'option in task card');
+// console.log(option, 'option in task card');
   // checking status and update status
   let status;
   if (task.status === 'next-up') {

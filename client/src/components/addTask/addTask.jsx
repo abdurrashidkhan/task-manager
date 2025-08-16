@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { XMarkIcon, CloudArrowUpIcon } from '@heroicons/react/24/outline';
-import { useDispatch, useSelector } from "react-redux";
-import { addTask } from "../../redux/stores/tasks/action";
+import { useDispatch, useSelector } from 'react-redux';
+import { addTask } from '../../redux/stores/tasks/action';
 const TaskModal = ({ setTaskModal }) => {
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.tasks);
@@ -32,30 +32,46 @@ const TaskModal = ({ setTaskModal }) => {
     },
   });
 
-  const onSubmit = (data) => {
-  const taskDetails = {
-    project: data.project,
-    title: data.title,
-    description: data.description,
-    status: data.status,
-    type: data.workType,
-    team: data.team,
-    assignee: data.assignTo,
-    priority: data.priority,
-    labels: data.labels.split(',').map(label => label.trim()),
-    deadline: data.deadline,
-    startDate: data.startDate,
-    restrictions: data.restrictedTo,
-    reporter: data.reporter,
-    relation: data.relation,
-    url: data.relatedUrl,
-    isImpediment: data.flagged,
-    attachment: data['file-upload'] 
-  };
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    const taskImage = data?.taskImage[0];
+    if (taskImage) {
+      formData.append('file', taskImage);
+      formData.append('upload_preset', 'images_preset'); // Update with your preset name
+      const imageResponse = await fetch(`https://api.cloudinary.com/v1_1/dqsqaozc0/upload`, {
+        method: 'POST',
+        body: formData,
+      }).then((res) => res.json());
 
-    dispatch(addTask(taskDetails));
-    reset();
-    setTaskModal(false);
+      if (imageResponse.secure_url) {
+        let image = imageResponse.secure_url;
+        const taskDetails = {
+          project: data.project,
+          title: data.title,
+          description: data.description,
+          status: data.status,
+          type: data.workType,
+          team: data.team,
+          assignee: data.assignTo,
+          priority: data.priority,
+          labels: data.labels.split(',').map((label) => label.trim()),
+          deadline: data.deadline,
+          startDate: data.startDate,
+          restrictions: data.restrictedTo,
+          reporter: data.reporter,
+          relation: data.relation,
+          url: data.relatedUrl,
+          isImpediment: data.flagged,
+          attachment: image,
+        };
+        dispatch(addTask(taskDetails));
+        reset();
+        setTaskModal(false);
+        console.log(image, 'image uploaded successfully');
+      } else {
+        throw new Error('Image upload failed');
+      }
+    }
   };
 
   const allFieldsRequired = (fieldName) => ({
@@ -456,22 +472,22 @@ const TaskModal = ({ setTaskModal }) => {
                     <CloudArrowUpIcon className='mx-auto h-12 w-12 text-gray-400' />
                     <div className='flex text-sm text-gray-600'>
                       <label
-                        htmlFor='file-upload'
+                        htmlFor='taskImage'
                         className='relative cursor-pointer rounded-md bg-white font-medium text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 hover:text-blue-500'
                       >
                         <span>Upload a file</span>
                         <input
-                          id='file-upload'
+                          id='taskImage'
                           type='file'
                           className='sr-only'
-                          {...register('file-upload', allFieldsRequired('Attachment'))}
+                          {...register('taskImage', allFieldsRequired('Attachment'))}
                         />
                       </label>
                       <p className='pl-1'>or drag and drop</p>
                     </div>
-                    {errors['file-upload'] && (
+                    {errors['taskImage'] && (
                       <span className='text-red-600 text-sm mt-1'>
-                        {errors['file-upload'].message}
+                        {errors['taskImage'].message}
                       </span>
                     )}
                     <p className='text-xs text-gray-500'>PNG, JPG, GIF up to 10MB</p>
