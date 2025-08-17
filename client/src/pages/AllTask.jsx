@@ -7,12 +7,18 @@ import { fetchTasks } from '../redux/stores/tasks/action';
 
 const AllTask = () => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const { tasks, loading, error } = useSelector((state) => state.tasks);
   const totalTasks = tasks?.task;
 
   console.log(totalTasks, 'totalTasks in allTask');
   useEffect(() => {
     dispatch(fetchTasks());
+    if (loading) {
+      setIsLoading(true);
+    }else{
+      setIsLoading(false);
+    }
   }, []);
 
   const runningTask = totalTasks?.filter((option) => option?.status=== 'to-do');
@@ -42,7 +48,7 @@ const AllTask = () => {
       </div>
     </div>
   );
-  if (loading) {
+  if (isLoading) {
     return <h1>Loading...</h1>;
   }
   if (error) {
