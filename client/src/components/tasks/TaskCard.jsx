@@ -40,7 +40,7 @@ const TaskCard = ({ option }) => {
     <div className='rounded bg-white shadow-lg hover:shadow-xl transition-all my-4 border border-gray-100'>
       <div className="w-full h-[180px] flex items-center justify-center bg-gray-100 rounded">
   <img 
-    className="max-h-full max-w-full object-fill" 
+    className="max-h-full max-w-full object-fill rounded-t" 
     src={task?.image} 
     alt={task?.title} 
   />
