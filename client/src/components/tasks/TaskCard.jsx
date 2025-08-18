@@ -58,10 +58,6 @@ const TaskCard = ({ option }) => {
           >
             {task?.title.length > 16 ? task?.title.slice(0,16) + '...' : task?.title}
           </h1>
-
-          {/* Description */}
-          {/* <p className='text-gray-600 mb-3'>{task?.description}</p>  */}
-
           {/* Assigned to */}
           <p className='text-sm text-gray-500'>
             Assigned to:
