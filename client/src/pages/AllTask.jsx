@@ -11,17 +11,12 @@ const AllTask = () => {
   const { tasks, loading, error } = useSelector((state) => state.tasks);
   const totalTasks = tasks?.task;
 
-  console.log(totalTasks, 'totalTasks in allTask');
+  console.log(tasks, 'totalTasks in allTask');
   useEffect(() => {
     dispatch(fetchTasks());
-    if (loading) {
-      setIsLoading(true);
-    }else{
-      setIsLoading(false);
-    }
   }, []);
 
-  const runningTask = totalTasks?.filter((option) => option?.status=== 'to-do');
+  const runningTask = totalTasks?.filter((option) => option?.status === 'to-do');
   const inProcessTask = totalTasks?.filter((option) => option?.status === 'in-process');
   const submittedTask = totalTasks?.filter((option) => option?.status === 'submitted');
   const doneTask = totalTasks?.filter((option) => option?.status === 'done');
@@ -43,16 +38,16 @@ const AllTask = () => {
         style={{ maxHeight: 'calc(95vh - 100px)' }} // subtract header height
       >
         {taskList?.map((option) => (
-          <TaskCard option={option} key={option?._id}/>
+          <TaskCard option={option} key={option?._id} />
         ))}
       </div>
     </div>
   );
-  if (isLoading) {
+  if (loading) {
     return <h1>Loading...</h1>;
   }
   if (error) {
-    return <h1>Error: {error.massage}</h1>;
+    return <h1>Error: {error}</h1>;
   }
   return (
     <div className='grid grid-cols-4 gap-5 mt-2 px-2 items-start'>

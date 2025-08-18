@@ -19,7 +19,7 @@ const taskSlice = createSlice({
     builder
       // Fetch Tasks
       .addCase(fetchTasks.pending, (state) => {
-        state.loading = false;
+        state.loading = true;
       })
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.loading = false;
@@ -33,11 +33,13 @@ const taskSlice = createSlice({
       // Add Task
       
       .addCase(addTask.pending, (state) => {
-        state.loading = false;
+        state.loading = true;
       })
       .addCase(addTask.fulfilled, (state, action) => {
-        state.tasks.push(action.payload);
+        console.log('Task added:', action.payload);
         state.loading = false;
+        state.tasks = {task:action.payload.data}; 
+        state.error = null;
       })
       .addCase(addTask.rejected, (state, action) => {
         state.error = action.error.message;

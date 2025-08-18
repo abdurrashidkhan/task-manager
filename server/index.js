@@ -27,12 +27,14 @@ async function run() {
       const task = req.body;
       try {
         const result = await tasks.insertOne(task);
-        console.log('Insert result:', result);
-        res.status(200).send({
-          status: true,
-          message: 'Task created successfully',
-          insertedId: result.insertedId
-        });
+        const newData = await tasks.find().toArray()
+        if (result.acknowledged === true) {
+          res.status(200).send({
+            status: true,
+            message: 'Task created successfully',
+            data: newData
+          });
+        }
       } catch (err) {
         console.error('fail create task:', err.message);
         res.status(500).send({
