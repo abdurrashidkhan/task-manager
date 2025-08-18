@@ -50,13 +50,13 @@ const TaskCard = ({ option }) => {
       <div className='p-5 pt-0'>
         <div className=''>
           {/* Title with priority color */}
-          <h1
+          <h1 title={task?.title.length > 16 && task?.title}
             className={`text-lg font-bold mb-2 
               ${task?.priority === 'medium' ? 'text-yellow-500' : ''} 
               ${task?.priority === 'high' ? 'text-red-600' : ''} 
               ${task?.priority === 'low' ? 'text-green-600' : ''} capitalize`}
           >
-            {task?.title}
+            {task?.title.length > 16 ? task?.title.slice(0,16) + '...' : task?.title}
           </h1>
 
           {/* Description */}
