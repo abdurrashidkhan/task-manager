@@ -55,10 +55,9 @@ const taskSlice = createSlice({
         state.loading = false;
         state.error = null;
         const { taskId, newStatus } = action.payload;
-        console.log('Task status updated:', taskId, 'to', newStatus);
-        // state.tasks.task = state.tasks.task.map((task) =>
-        //   task._id === taskId ? { ...task, status: newStatus } : task,
-        // );
+        state.tasks.task = state.tasks.task.map((task) =>
+        task._id === taskId ? { ...task, status: newStatus } : task,
+        );
       })
 
       .addCase(updateTaskStatus.rejected, (state, action) => {
