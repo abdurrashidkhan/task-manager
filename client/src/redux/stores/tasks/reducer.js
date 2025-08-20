@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchTasks, addTask } from "./action";
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchTasks, addTask, updateTaskStatus } from './action';
 
 const initialState = {
   tasks: [],
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const taskSlice = createSlice({
-  name: "tasks",
+  name: 'tasks',
   initialState,
   reducers: {
     removeTask: (state, action) => {
@@ -31,21 +31,40 @@ const taskSlice = createSlice({
       })
 
       // Add Task
-      
+
       .addCase(addTask.pending, (state) => {
         state.loading = true;
       })
       .addCase(addTask.fulfilled, (state, action) => {
         console.log('Task added:', action.payload);
         state.loading = false;
-        state.tasks = {task:action.payload.data}; 
+        state.tasks = { task: action.payload.data };
         state.error = null;
       })
       .addCase(addTask.rejected, (state, action) => {
         state.error = action.error.message;
         state.loading = false;
       })
-      //update task status
+
+      // Update Task Status (for drag & drop)
+      .addCase(updateTaskStatus.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(updateTaskStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        const { taskId, newStatus } = action.payload;
+        console.log('Task status updated:', taskId, 'to', newStatus);
+        // state.tasks.task = state.tasks.task.map((task) =>
+        //   task._id === taskId ? { ...task, status: newStatus } : task,
+        // );
+      })
+
+      .addCase(updateTaskStatus.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      });
   },
 });
 

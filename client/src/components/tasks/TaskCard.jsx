@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 const TaskCard = ({ option }) => {
   // const dispatch = useDispatch()
   const task = {
-    id: option?.id,
+    id: option?._id,
     title: option?.title,
     status: option?.status,
     description: option?.description,
