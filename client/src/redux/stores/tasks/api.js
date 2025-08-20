@@ -11,5 +11,9 @@ export const addTaskApi = async (task) => {
   const response = await axios.post(API_URL + "/create-task", task);
   return response.data;
 };
-
+// Update task status
+export const updateTaskApi = async (taskId, newStatus) => {
+  const response = await axios.put(`${API_URL}/update-status/${taskId}`, { status: newStatus });
+  return response.data;
+};
 

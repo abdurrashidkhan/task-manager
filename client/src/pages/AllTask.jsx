@@ -1,61 +1,105 @@
-import { BellIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import MyTasks from '../components/tasks/MyTasks';
-import TaskCard from '../components/tasks/TaskCard';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchTasks } from '../redux/stores/tasks/action';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasks, updateTaskStatus } from "../redux/stores/tasks/action"; 
+import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
+import TaskCard from "../components/tasks/TaskCard";
 
-const AllTask = () => {
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const { tasks, loading, error } = useSelector((state) => state.tasks);
-  const totalTasks = tasks?.task;
+const DraggableTask = ({ option }) => {
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id: option._id || option.id, // MongoDB id বা fallback
+  });
 
-  console.log(tasks, 'totalTasks in allTask');
-  useEffect(() => {
-    dispatch(fetchTasks());
-  }, []);
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      className="cursor-move"
+    >
+      <TaskCard option={option} />
+    </div>
+  );
+};
 
-  const runningTask = totalTasks?.filter((option) => option?.status === 'to-do');
-  const inProcessTask = totalTasks?.filter((option) => option?.status === 'in-process');
-  const submittedTask = totalTasks?.filter((option) => option?.status === 'submitted');
-  const doneTask = totalTasks?.filter((option) => option?.status === 'done');
+const TaskColumn = ({ id, title, taskList }) => {
+  const { setNodeRef, isOver } = useDroppable({ id });
 
-  // Reusable column component
-  const TaskColumn = ({ title, taskList }) => (
-    <div className='bg-[#f5f5f5] shadow-2xl rounded w-[100%] flex flex-col'>
+  return (
+    <div
+      ref={setNodeRef}
+      className={`bg-[#f5f5f5] shadow-2xl rounded w-full flex flex-col transition ${
+        isOver ? "ring-2 ring-blue-500" : ""
+      }`}
+    >
       {/* Header */}
-      <div className='flex sticky top-0 justify-between bg-white p-5 rounded-t shadow'>
+      <div className="flex sticky top-0 justify-between bg-white p-5 rounded-t shadow">
         <h1>{title}</h1>
-        <p className='bg-blue-500 text-white w-6 h-6 grid place-content-center rounded-md'>
+        <p className="bg-blue-500 text-white w-6 h-6 grid place-content-center rounded-md">
           {taskList?.length}
         </p>
       </div>
 
-      {/* Scrollable content */}
+      {/* Tasks */}
       <div
-        className='space-y-3 px-3 overflow-y-auto'
-        style={{ maxHeight: 'calc(95vh - 100px)' }} // subtract header height
+        className="space-y-3 px-3 overflow-y-auto"
+        style={{ maxHeight: "calc(95vh - 100px)" }}
       >
-        {taskList?.map((option) => (
-          <TaskCard option={option} key={option?._id} />
+        {taskList?.map((task) => (
+          <DraggableTask key={task._id || task.id} option={task} />
         ))}
       </div>
     </div>
   );
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
-  if (error) {
-    return <h1>Error: {error}</h1>;
-  }
+};
+
+const AllTask = () => {
+  const dispatch = useDispatch();
+  const { tasks, loading, error } = useSelector((state) => state.tasks);
+  const totalTasks = tasks?.task || [];
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
+
+  // === handle drop ===
+  const handleDragEnd = ({ active, over }) => {
+    if (!over) return;
+    const taskId = active.id;
+    const newStatus = over.id;
+
+    console.log("Moved Task:", taskId, "→", newStatus);
+
+    dispatch(updateTaskStatus({taskId, newStatus}));
+  };
+
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>Error: {error}</h1>;
+
   return (
-    <div className='grid grid-cols-4 gap-5 mt-2 px-2 items-start'>
-      <TaskColumn title='To Do' taskList={runningTask} />
-      <TaskColumn title='In Progress' taskList={inProcessTask} />
-      <TaskColumn title='In Reviews' taskList={submittedTask} />
-      <TaskColumn title='Done' taskList={doneTask} />
-    </div>
+    <DndContext onDragEnd={handleDragEnd}>
+      <div className="grid grid-cols-4 gap-5 mt-2 px-2 items-start">
+        <TaskColumn
+          id="to-do"
+          title="To Do"
+          taskList={totalTasks.filter((t) => t.status === "to-do")}
+        />
+        <TaskColumn
+          id="in-process"
+          title="In Progress"
+          taskList={totalTasks.filter((t) => t.status === "in-process")}
+        />
+        <TaskColumn
+          id="submitted"
+          title="In Reviews"
+          taskList={totalTasks.filter((t) => t.status === "submitted")}
+        />
+        <TaskColumn
+          id="done"
+          title="Done"
+          taskList={totalTasks.filter((t) => t.status === "done")}
+        />
+      </div>
+    </DndContext>
   );
 };
 
