@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchTasks, updateTaskStatus } from "../redux/stores/tasks/action";
 import {
   DndContext,
+  rectIntersection,
+  DragOverlay,
   closestCorners,
 } from "@dnd-kit/core";
 import {
@@ -14,56 +16,53 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import TaskCard from "../components/tasks/TaskCard";
 
-const SortableTask = ({ option }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: option._id || option.id });
+const SortableTask = ({ task, placeholder }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({ id: task._id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
+    marginBottom: placeholder ? "60px" : undefined, // space for placeholder
   };
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <TaskCard option={option} />
+      <TaskCard option={task} />
     </div>
   );
 };
 
-const TaskColumn = ({ id, title, taskList }) => {
+const TaskColumn = ({ id, title, taskList, placeholderId }) => {
   return (
-    <div
-      className={`bg-[#f5f5f5] shadow-2xl rounded w-full flex flex-col`}
-    >
+    <div className="bg-[#f5f5f5] shadow-2xl rounded w-full flex flex-col">
       {/* Header */}
-      <div className="flex sticky top-0 justify-between bg-white p-5 rounded-t shadow">
+      <div className="flex sticky top-0 justify-between bg-white p-5 rounded-t shadow z-10">
         <h1>{title}</h1>
         <p className="bg-blue-500 text-white w-6 h-6 grid place-content-center rounded-md">
           {taskList?.length}
         </p>
       </div>
 
-      {/* Tasks */}
-      <div
-        className="space-y-3 px-3 overflow-y-auto"
-        style={{ maxHeight: "calc(95vh - 100px)" }}
+      {/* Task list */}
+      <SortableContext
+        items={taskList.map((t) => t._id)}
+        strategy={verticalListSortingStrategy}
       >
-        <SortableContext
-          items={taskList.map((t) => t._id || t.id)}
-          strategy={verticalListSortingStrategy}
+        <div
+          className="space-y-3 px-3 overflow-y-auto"
+          style={{ maxHeight: "calc(95vh - 100px)" }}
         >
-          {taskList?.map((task) => (
-            <SortableTask key={task._id || task.id} option={task} />
+          {taskList.map((task) => (
+            <SortableTask
+              key={task._id}
+              task={task}
+              placeholder={placeholderId === task._id}
+            />
           ))}
-        </SortableContext>
-      </div>
+        </div>
+      </SortableContext>
     </div>
   );
 };
@@ -80,12 +79,14 @@ const AllTask = () => {
     "done": [],
   });
 
+  const [activeTask, setActiveTask] = useState(null);
+  const [placeholder, setPlaceholder] = useState(null); // track placeholder task id
+
   useEffect(() => {
     dispatch(fetchTasks());
   }, [dispatch]);
 
   useEffect(() => {
-    // task  column state
     setColumns({
       "to-do": totalTasks.filter((t) => t.status === "to-do"),
       "in-process": totalTasks.filter((t) => t.status === "in-process"),
@@ -94,60 +95,82 @@ const AllTask = () => {
     });
   }, [totalTasks]);
 
-  // === handle drop ===
-  const handleDragEnd = ({ active, over }) => {
-    if (!over) return;
+  const handleDragStart = ({ active }) => {
+    const task = totalTasks.find((t) => t._id === active.id);
+    setActiveTask(task);
+  };
 
+  const handleDragOver = ({ active, over }) => {
+    if (!over) return;
     const activeId = active.id;
     const overId = over.id;
 
-    // Find out which column was active.
     let activeColumn = null;
     let overColumn = null;
 
     Object.keys(columns).forEach((col) => {
-      if (columns[col].find((task) => (task._id || task.id) === activeId)) {
-        activeColumn = col;
-      }
-      if (columns[col].find((task) => (task._id || task.id) === overId)) {
-        overColumn = col;
-      }
+      if (columns[col].some((t) => t._id === activeId)) activeColumn = col;
+      if (columns[col].some((t) => t._id === overId)) overColumn = col;
     });
 
-    if (!activeColumn) return;
+    if (!activeColumn || !overColumn) return;
 
-    // === If the columns are the same, reorder will occur. ===
-    if (activeColumn && overColumn && activeColumn === overColumn) {
-      const oldIndex = columns[activeColumn].findIndex(
-        (t) => (t._id || t.id) === activeId
-      );
-      const newIndex = columns[activeColumn].findIndex(
-        (t) => (t._id || t.id) === overId
-      );
+    // Same column reorder live preview
+    if (activeColumn === overColumn) {
+      const oldIndex = columns[activeColumn].findIndex((t) => t._id === activeId);
+      const newIndex = columns[overColumn].findIndex((t) => t._id === overId);
+      if (oldIndex === newIndex) return;
 
       setColumns((prev) => ({
         ...prev,
         [activeColumn]: arrayMove(prev[activeColumn], oldIndex, newIndex),
       }));
-    } else if (activeColumn && overColumn && activeColumn !== overColumn) {
-      // === If the column is different, it will be pushed to another column. ===
-      const activeTask = columns[activeColumn].find(
-        (t) => (t._id || t.id) === activeId
-      );
 
-      setColumns((prev) => {
-        const newActive = prev[activeColumn].filter(
-          (t) => (t._id || t.id) !== activeId
-        );
-        const newOver = [...prev[overColumn], { ...activeTask, status: overColumn }];
-        return {
-          ...prev,
-          [activeColumn]: newActive,
-          [overColumn]: newOver,
-        };
-      });
+      setPlaceholder(overId);
+    }
+    // Moving to another column live preview
+    else if (activeColumn !== overColumn) {
+      const movingTask = columns[activeColumn].find((t) => t._id === activeId);
+      const newSource = columns[activeColumn].filter((t) => t._id !== activeId);
 
-      // === bSending update to ackend ===
+      const overIndex = columns[overColumn].findIndex((t) => t._id === overId);
+      const newDestination =
+        overIndex === -1
+          ? [...columns[overColumn], movingTask]
+          : [
+              ...columns[overColumn].slice(0, overIndex),
+              movingTask,
+              ...columns[overColumn].slice(overIndex),
+            ];
+
+      setColumns((prev) => ({
+        ...prev,
+        [activeColumn]: newSource,
+        [overColumn]: newDestination,
+      }));
+
+      setPlaceholder(movingTask._id);
+    }
+  };
+
+  const handleDragEnd = ({ active, over }) => {
+    setActiveTask(null);
+    setPlaceholder(null);
+
+    if (!over) return;
+
+    const activeId = active.id;
+    let activeColumn = null;
+    let overColumn = null;
+
+    Object.keys(columns).forEach((col) => {
+      if (columns[col].some((t) => t._id === activeId)) activeColumn = col;
+      if (columns[col].some((t) => t._id === over.id)) overColumn = col;
+    });
+
+    if (!activeColumn) return;
+
+    if (activeColumn !== overColumn && overColumn) {
       dispatch(updateTaskStatus({ taskId: activeId, newStatus: overColumn }));
     }
   };
@@ -157,8 +180,10 @@ const AllTask = () => {
 
   return (
     <DndContext
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
-      collisionDetection={closestCorners}
+      collisionDetection={rectIntersection}
     >
       <div className="grid grid-cols-4 gap-5 mt-2 px-2 items-start">
         {Object.keys(columns).map((colKey) => (
@@ -171,13 +196,18 @@ const AllTask = () => {
                 : colKey === "in-process"
                 ? "In Progress"
                 : colKey === "submitted"
-                ? "In Reviews"
+                ? "In Review"
                 : "Done"
             }
             taskList={columns[colKey]}
+            placeholderId={placeholder}
           />
         ))}
       </div>
+
+      <DragOverlay>
+        {activeTask ? <TaskCard option={activeTask} /> : null}
+      </DragOverlay>
     </DndContext>
   );
 };
