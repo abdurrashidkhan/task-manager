@@ -24,7 +24,7 @@ const SortableTask = ({ task, placeholder }) => {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
-    marginBottom: placeholder ? "60px" : undefined, // space for placeholder
+    marginBottom: placeholder ? "60px" : undefined,
   };
 
   return (
