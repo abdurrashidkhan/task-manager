@@ -94,11 +94,9 @@ const TaskModal = ({ setTaskModal }) => {
               <XMarkIcon className='h-6 w-6 text-gray-500 hover:text-gray-900 transition-colors' />
             </button>
           </div>
-          {/* Modal body */}
           <div className='relative p-6 flex-auto'>
             <form id='task-form' onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
               <div className=''>
-                {/* Project Field */}
                 <div>
                   <label htmlFor='project' className='block text-sm font-medium text-gray-700'>
                     Project <span className='text-red-500'>*</span>
@@ -120,7 +118,6 @@ const TaskModal = ({ setTaskModal }) => {
                   </div>
                 </div>
               </div>
-              {/* Title */}
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-1'>
                   Title <span className='text-red-500'>*</span>
@@ -135,7 +132,6 @@ const TaskModal = ({ setTaskModal }) => {
                   <span className='text-red-600 text-sm mt-1'>{errors.title.message}</span>
                 )}
               </div>
-              {/* Description */}
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-1'>
                   Description <span className='text-red-500'>*</span>
@@ -150,7 +146,6 @@ const TaskModal = ({ setTaskModal }) => {
                   <span className='text-red-600 text-sm mt-1'>{errors.description.message}</span>
                 )}
               </div>
-              {/* Status Field */}
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                 <div>
                   <label htmlFor='status' className='block text-sm font-medium text-gray-700'>
@@ -176,7 +171,6 @@ const TaskModal = ({ setTaskModal }) => {
                     </p>
                   </div>
                 </div>
-                {/* Work Type Field */}
                 <div>
                   <label htmlFor='workType' className='block text-sm font-medium text-gray-700'>
                     Work type <span className='text-red-500'>*</span>
@@ -203,9 +197,7 @@ const TaskModal = ({ setTaskModal }) => {
                   </div>
                 </div>
               </div>
-              {/* Grid for two-column fields */}
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                {/* Team */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Team <span className='text-red-500'>*</span>
@@ -225,8 +217,6 @@ const TaskModal = ({ setTaskModal }) => {
                     <span className='text-red-600 text-sm mt-1'>{errors.team.message}</span>
                   )}
                 </div>
-
-                {/* Assignee */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Assign to <span className='text-red-500'>*</span>
@@ -250,7 +240,6 @@ const TaskModal = ({ setTaskModal }) => {
               </div>
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                {/* Priority */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Priority <span className='text-red-500'>*</span>
@@ -268,7 +257,6 @@ const TaskModal = ({ setTaskModal }) => {
                     <span className='text-red-600 text-sm mt-1'>{errors.priority.message}</span>
                   )}
                 </div>
-                {/* Labels */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Labels <span className='text-red-500'>*</span>
@@ -283,25 +271,9 @@ const TaskModal = ({ setTaskModal }) => {
                     <span className='text-red-600 text-sm mt-1'>{errors.labels.message}</span>
                   )}
                 </div>
-                {/* Parent */}
-                {/* <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>
-                    Parent <span className='text-red-500'>*</span>
-                  </label>
-                  <input
-                    type='text'
-                    placeholder='Parent Task'
-                    {...register('parent', allFieldsRequired('Parent'))}
-                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                  />
-                  {errors.parent && (
-                    <span className='text-red-600 text-sm mt-1'>{errors.parent.message}</span>
-                  )}
-                </div> */}
               </div>
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                {/* Deadline */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Deadline <span className='text-red-500'>*</span>
@@ -315,7 +287,6 @@ const TaskModal = ({ setTaskModal }) => {
                     <span className='text-red-600 text-sm mt-1'>{errors.deadline.message}</span>
                   )}
                 </div>
-                {/* Start Date */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Start Date <span className='text-red-500'>*</span>
@@ -332,7 +303,6 @@ const TaskModal = ({ setTaskModal }) => {
               </div>
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                {/* Restricted To */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Restricted To <span className='text-red-500'>*</span>
@@ -347,7 +317,6 @@ const TaskModal = ({ setTaskModal }) => {
                     <span className='text-red-600 text-sm mt-1'>{errors.restrictedTo.message}</span>
                   )}
                 </div>
-                {/* Reporter */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Reporter <span className='text-red-500'>*</span>
@@ -362,48 +331,8 @@ const TaskModal = ({ setTaskModal }) => {
                     <span className='text-red-600 text-sm mt-1'>{errors.reporter.message}</span>
                   )}
                 </div>
-                {/* Sprint */}
-                {/* <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>
-                    Sprint <span className='text-red-500'>*</span>
-                  </label>
-                  <select
-                    {...register('sprint', allFieldsRequired('Sprint'))}
-                    className='block w-full px-4 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                    defaultValue='none'
-                  >
-                    <option value='none' disabled>
-                      None
-                    </option>
-                    <option value='sprint1'>Sprint 1</option>
-                    <option value='sprint2'>Sprint 2</option>
-                  </select>
-                  {errors.sprint && (
-                    <span className='text-red-600 text-sm mt-1'>{errors.sprint.message}</span>
-                  )}
-                </div> */}
               </div>
-
-              {/* <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                Story Points
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>
-                    Story Points <span className='text-red-500'>*</span>
-                  </label>
-                  <input
-                    type='number'
-                    placeholder='e.g., 5'
-                    {...register('storyPoints', allFieldsRequired('Story Points'))}
-                    className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-all'
-                  />
-                  {errors.storyPoints && (
-                    <span className='text-red-600 text-sm mt-1'>{errors.storyPoints.message}</span>
-                  )}
-                </div>
-              </div> */}
-
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                {/* Relation */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Relation <span className='text-red-500'>*</span>
@@ -423,8 +352,6 @@ const TaskModal = ({ setTaskModal }) => {
                     <span className='text-red-600 text-sm mt-1'>{errors.relation.message}</span>
                   )}
                 </div>
-
-                {/* Related URL */}
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Related URL <span className='text-red-500'>*</span>
@@ -441,7 +368,6 @@ const TaskModal = ({ setTaskModal }) => {
                 </div>
               </div>
 
-              {/* Flags & Create Another */}
               <div className=''>
                 <h2 className='block text-base  font-medium text-gray-700'>Impediment</h2>
                 <p className='text-[#6A7282] text-sm'>Allows to flag issues with impediments.</p>
@@ -498,7 +424,7 @@ const TaskModal = ({ setTaskModal }) => {
             </form>
           </div>
 
-          {/* Modal footer */}
+
           <div className='flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b sticky bottom-0 bg-white z-10'>
             {/* API Error */}
             {error?.message && (
@@ -518,7 +444,7 @@ const TaskModal = ({ setTaskModal }) => {
               </button>
               <button
                 type='submit'
-                form='task-form' // Link button to the form
+                form='task-form' 
                 disabled={loading}
                 className={`px-5 py-2 rounded font-semibold transition-colors ${
                   loading
