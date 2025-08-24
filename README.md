@@ -67,10 +67,3 @@ A modern **project management application** designed to help teams organize, tra
 - 📈 Analytics & productivity insights dashboard  
 - 🔔 Real-time notifications (WebSocket support)  
 
----
-
-## 📂 Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/your-username/project-management-tool.git
