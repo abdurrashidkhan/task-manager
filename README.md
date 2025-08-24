@@ -1,80 +1,86 @@
-## 📊 Project Overview
+📊 Project Overview
 
-Project Board: Displays tasks grouped into categories (To Do, In Progress, In Review, Done)
-Task Cards: Show title, assignee, deadline, attachments, and quick actions (delete/edit)
-Sidebar & Chat: Team chat integrated for real-time collaboration
-Dashboard Summary: Shows overall progress and project detai
+Project Board – Organizes tasks into categories (To Do, In Progress, In Review, Done)
 
-# Features
+Task Cards – Show task title, assignee, deadline, attachments, and quick actions (edit/delete)
+
+Sidebar & Chat – Integrated chat panel for team discussions
+
+Dashboard Summary – Displays overall progress and project details at a glance
+
+✨ Features
 🔹 Task Management
 
 Create, update, and delete tasks
-Assign tasks to team members
-Add deadlines, priorities, and labels
-Attach files/screenshots for better context
 
+Assign tasks to team members
+
+Set deadlines, priorities, and labels
+
+Attach files/screenshots for better context
 
 🔹 Kanban Board
 
 Drag-and-drop tasks across stages (To Do → In Progress → In Review → Done)
-Visual progress tracking at a glance
-Task counts per column for workload monitoring
 
+Visual progress tracking at a glance
+
+Task counts per column for workload monitoring
 
 🔹 Collaboration
 
-Built-in team chat panel for communication inside projects
-Comments & discussions within tasks
-Activity tracking for better accountability
+Built-in team chat panel for communication
 
+Comments & discussions within tasks
+
+Activity tracking for accountability
 
 🔹 User Experience
 
-Clean, modern responsive UI (desktop & mobile)
+Clean, modern, and responsive UI (desktop & mobile)
+
 Real-time updates without page reloads
-Easy-to-navigate project overview dashboard
 
+Intuitive navigation with a project overview dashboard
 
-
-## 🛠️ Tech Stack
-
-
-## Frontend:
+🛠️ Tech Stack
+Frontend
 
 ⚡ Vite
- – fast build tool
+ – Fast build tool
 
 ⚛️ React.js
- – component-based UI
+ – Component-based UI
 
 🎨 Tailwind CSS
- – modern styling
+ – Modern styling
 
-
-
-
-## Backend:
+Backend
 
 🟢 Node.js
- – runtime environment
+ – Runtime environment
 
 🚏 Express.js
  – REST API framework
 
 🗄️ MongoDB
  – NoSQL database with Mongoose
- 
 
-## Deployment:
+Deployment
 
 🌐 Vercel
- – frontend deployment
-☁️ (Optional: Render / Railway) – backend deployment
+ – Frontend deployment
 
+☁️ (Optional: Render
+ / Railway
+) – Backend deployment
 
-## ✅ Future Enhancements
+🚀 Future Enhancements
 
 🔐 Authentication & Role-based access control
+
 📱 Mobile App version with React Native
+
 📈 Analytics & productivity insights dashboard
+
 🔔 Real-time notifications (WebSocket support)
