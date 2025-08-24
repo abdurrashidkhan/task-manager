@@ -88,7 +88,7 @@ const TaskModal = ({ setTaskModal }) => {
           <div className='flex items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t sticky top-0 bg-white z-10'>
             <h3 className='text-xl font-semibold text-gray-800'>Create Task</h3>
             <button
-              className='p-1 ml-auto bg-transparent border-0 text-gray-800 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
+              className='p-1 ml-auto bg-transparent border-0 text-gray-800 float-right text-3xl leading-none font-semibold outline-none focus:outline-none hover:cursor-pointer'
               onClick={() => setTaskModal(false)}
             >
               <XMarkIcon className='h-6 w-6 text-gray-500 hover:text-gray-900 transition-colors' />
