@@ -5,7 +5,7 @@ export default function Members() {
   return (
     <div>
       <h1 className="text-xl">Members</h1>
-      <div className="flex gap-3 mt-3">
+      {/* <div className="flex gap-3 mt-3">
         <div className="h-10 w-10 rounded-xl overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
@@ -41,7 +41,7 @@ export default function Members() {
             className="object-cover h-full w-full "
           />
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

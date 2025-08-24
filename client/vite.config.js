@@ -7,5 +7,5 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-   base: "/", // keep "/" for Vercel (important for routing)
+  base: "/",
 })
