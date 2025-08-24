@@ -19,28 +19,25 @@ Attach files/screenshots for better context
 #🔹 Kanban Board
 
 Drag-and-drop tasks across stages (To Do → In Progress → In Review → Done)
-
 Visual progress tracking at a glance
-
 Task counts per column for workload monitoring
 
-#🔹 Collaboration
+🔹 Collaboration
 
 Built-in team chat panel for communication inside projects
-
 Comments & discussions within tasks
-
 Activity tracking for better accountability
 
-#🔹 User Experience
+🔹 User Experience
 
 Clean, modern responsive UI (desktop & mobile)
 Real-time updates without page reloads
 Easy-to-navigate project overview dashboard
 
-# 🛠️ Tech Stack
 
-# Frontend:
+## 🛠️ Tech Stack
+
+## Frontend:
 
 ⚡ Vite
  – fast build tool
@@ -51,7 +48,7 @@ Easy-to-navigate project overview dashboard
 🎨 Tailwind CSS
  – modern styling
 
-# Backend:
+## Backend:
 
 🟢 Node.js
  – runtime environment
@@ -62,13 +59,13 @@ Easy-to-navigate project overview dashboard
 🗄️ MongoDB
  – NoSQL database with Mongoose
 
-# Deployment:
+## Deployment:
 
 🌐 Vercel
  – frontend deployment
 ☁️ (Optional: Render / Railway) – backend deployment
 
-# ✅ Future Enhancements
+## ✅ Future Enhancements
 
 🔐 Authentication & Role-based access control
 📱 Mobile App version with React Native
