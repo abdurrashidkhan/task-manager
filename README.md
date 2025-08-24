@@ -1,86 +1,76 @@
-📊 Project Overview
+# 📊 Project Management Tool
 
-Project Board – Organizes tasks into categories (To Do, In Progress, In Review, Done)
+A modern **project management application** designed to help teams organize, track, and collaborate on tasks efficiently.
 
-Task Cards – Show task title, assignee, deadline, attachments, and quick actions (edit/delete)
+[![Frontend](https://img.shields.io/badge/Frontend-React.js-blue)](https://reactjs.org/)
+[![Backend](https://img.shields.io/badge/Backend-Node.js-green)](https://nodejs.org/)
+[![Database](https://img.shields.io/badge/Database-MongoDB-brightgreen)](https://www.mongodb.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-Sidebar & Chat – Integrated chat panel for team discussions
+---
 
-Dashboard Summary – Displays overall progress and project details at a glance
+## 📌 Project Overview
 
-✨ Features
-🔹 Task Management
+- **Project Board:** Organize tasks into categories (To Do, In Progress, In Review, Done)  
+- **Task Cards:** Display task title, assignee, deadline, attachments, and quick actions (edit/delete)  
+- **Sidebar & Chat:** Integrated panel for team discussions  
+- **Dashboard Summary:** View overall project progress and key metrics at a glance  
 
-Create, update, and delete tasks
+---
 
-Assign tasks to team members
+## ✨ Features
 
-Set deadlines, priorities, and labels
+### 🔹 Task Management
+- Create, update, and delete tasks  
+- Assign tasks to team members  
+- Set deadlines, priorities, and labels  
+- Attach files or screenshots for better context  
 
-Attach files/screenshots for better context
+### 🔹 Kanban Board
+- Drag-and-drop tasks across stages (To Do → In Progress → In Review → Done)  
+- Visual progress tracking  
+- Task counts per column for workload monitoring  
 
-🔹 Kanban Board
+### 🔹 Collaboration
+- Built-in team chat panel  
+- Comments and discussions within tasks  
+- Activity tracking for accountability  
 
-Drag-and-drop tasks across stages (To Do → In Progress → In Review → Done)
+### 🔹 User Experience
+- Clean, modern, and responsive UI (desktop & mobile)  
+- Real-time updates without page reloads  
+- Intuitive navigation with a project overview dashboard  
 
-Visual progress tracking at a glance
+---
 
-Task counts per column for workload monitoring
+## 🛠️ Tech Stack
 
-🔹 Collaboration
+**Frontend:**  
+- ⚡ Vite – Fast build tool  
+- ⚛️ React.js – Component-based UI  
+- 🎨 Tailwind CSS – Modern styling  
 
-Built-in team chat panel for communication
+**Backend:**  
+- 🟢 Node.js – Runtime environment  
+- 🚏 Express.js – REST API framework  
+- 🗄️ MongoDB – NoSQL database with Mongoose  
 
-Comments & discussions within tasks
+**Deployment:**  
+- 🌐 Vercel – Frontend deployment  
+- ☁️ Render / Railway (Optional) – Backend deployment  
 
-Activity tracking for accountability
+---
 
-🔹 User Experience
+## 🚀 Future Enhancements
+- 🔐 Authentication & role-based access control  
+- 📱 Mobile app version with React Native  
+- 📈 Analytics & productivity insights dashboard  
+- 🔔 Real-time notifications (WebSocket support)  
 
-Clean, modern, and responsive UI (desktop & mobile)
+---
 
-Real-time updates without page reloads
+## 📂 Installation
 
-Intuitive navigation with a project overview dashboard
-
-🛠️ Tech Stack
-Frontend
-
-⚡ Vite
- – Fast build tool
-
-⚛️ React.js
- – Component-based UI
-
-🎨 Tailwind CSS
- – Modern styling
-
-Backend
-
-🟢 Node.js
- – Runtime environment
-
-🚏 Express.js
- – REST API framework
-
-🗄️ MongoDB
- – NoSQL database with Mongoose
-
-Deployment
-
-🌐 Vercel
- – Frontend deployment
-
-☁️ (Optional: Render
- / Railway
-) – Backend deployment
-
-🚀 Future Enhancements
-
-🔐 Authentication & Role-based access control
-
-📱 Mobile App version with React Native
-
-📈 Analytics & productivity insights dashboard
-
-🔔 Real-time notifications (WebSocket support)
+1. Clone the repository:
+```bash
+git clone https://github.com/your-username/project-management-tool.git
