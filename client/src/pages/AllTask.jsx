@@ -15,6 +15,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import TaskCard from "../components/tasks/TaskCard";
+import Loading from "../components/layouts/Loading";
 
 const SortableTask = ({ task, placeholder }) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
@@ -51,7 +52,7 @@ const TaskColumn = ({ id, title, taskList, placeholderId }) => {
         strategy={verticalListSortingStrategy}
       >
         <div
-          className="space-y-3 px-3 overflow-y-auto"
+          className="space-y-3 px-3 overflow-y-auto "
           style={{ maxHeight: "calc(95vh - 100px)" }}
         >
           {taskList.map((task) => (
@@ -175,7 +176,7 @@ const AllTask = () => {
     }
   };
 
-  if (loading) return <h1>Loading...</h1>;
+  if (!loading) return <Loading />;
   if (error) return <h1>Error: {error}</h1>;
 
   return (

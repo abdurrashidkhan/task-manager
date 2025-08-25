@@ -1,13 +1,21 @@
-import loading from '../../assets/image/loading.gif';
-const Loading = () => {
-  const style = {
-    background: `radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30%)`,
-  };
+import React from 'react';
+import '../styles/loading/loading.css';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
+const Loading = () => {
   return (
-    <div className="relative flex justify-center items-center h-screen w-full">
-      <div style={style} className=" h-full w-full absolute top-0"></div>
-      <img src={loading} alt="" />
+    <div className='w-full h-screen flex justify-center items-center bg-black abs'>
+      <DotLottieReact
+        src='https://lottie.host/f2b69835-2ab2-4403-b037-5cd52bc315cb/Yu9kqQfMKN.lottie'
+        loop
+        autoplay
+        style={{
+          width: '30%', // custom width
+          height: 'auto', // custom height
+          alignItems: 'center',
+          margin: 'auto',
+        }}
+      />
     </div>
   );
 };
