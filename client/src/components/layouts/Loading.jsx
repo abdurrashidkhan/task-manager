@@ -11,7 +11,7 @@ const Loading = () => {
         autoplay
         style={{
           width: '30%', 
-          height: 'auto', // custom height
+          height: 'auto',
           alignItems: 'center',
           margin: 'auto',
         }}
