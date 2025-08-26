@@ -1,21 +1,18 @@
-    /* Customize the entire scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px; /* Adjust width as needed */
-    }
+/* For WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 4px;
+}
+::-webkit-scrollbar-thumb {
+    background: #9810FA;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #00000018;
+    border-radius: 10px;
+}
 
-    /* Style the scrollbar track (background) */
-    ::-webkit-scrollbar-track {
-      background: #af0f0f;
-      border-radius: 10px;
-    }
-
-    /* Style the scrollbar thumb (draggable part) */
-    ::-webkit-scrollbar-thumb {
-      background: #421b9b;
-      border-radius: 10px;
-    }
-
-    /* Add hover styles for the thumb */
-    ::-webkit-scrollbar-thumb:hover {
-      background: #13681e;
-    }
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #9810FA #00000018;
+}

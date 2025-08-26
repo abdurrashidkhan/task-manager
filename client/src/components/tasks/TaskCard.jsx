@@ -1,4 +1,4 @@
-import { ArrowRightIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { ChatBubbleLeftIcon, TrashIcon, Bars3BottomLeftIcon} from '@heroicons/react/24/solid';
 import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
 // import { removeTask, updateStatus } from '../../redux/task/task';
@@ -74,30 +74,39 @@ const TaskCard = ({ option }) => {
         </div>
 
         {/* Footer */}
-        <div className='flex justify-between items-center mt-1'>
+        <div className='flex justify-between items-center'>
           <p className='text-xs text-gray-400'>Date: {task?.date}</p>
 
-          <div className='flex gap-3'>
-            {/* Delete Button */}
-            <button
-              onClick={() => handelClick(task?.id)}
-              title='Delete'
-              disabled={task?.status === 'archiver'}
-              className={`p-2 rounded-lg transition ${task?.status === 'archiver' ? 'cursor-not-allowed opacity-40' : 'hover:bg-red-100'
-                }`}
-            >
-              <TrashIcon className='h-5 w-5 text-red-500' />
-            </button>
-
+          <div className='flex gap-1 justify-end items-center'>
             {/* Status Update Button */}
             <button
               onClick={() => dispatch(updateStatus({ id: task?.id, status: status }))}
               title={task?.status}
               disabled={task?.status === 'archiver'}
-              className={`p-2 rounded-lg transition ${task.status === 'archiver' ? 'cursor-not-allowed opacity-40' : 'hover:bg-blue-100'
+              className={`p-2 rounded-lg transition ${task.status === 'archiver' ? 'cursor-not-allowed opacity-40' : 'hover:hover:cursor-pointer'
                 }`}
             >
-              <ArrowRightIcon className='h-5 w-5 text-blue-500' />
+              <Bars3BottomLeftIcon className='h-4 w-4 text-gray-700 ' />
+            </button>
+            {/* comment Button */}
+            <button
+              onClick={() => handelClick(task?.id)}
+              title='Delete'
+              disabled={task?.status === 'archiver'}
+              className={` rounded-lg transition ${task?.status === 'archiver' ? 'cursor-not-allowed opacity-40' : 'hover:hover:cursor-pointer'
+                }`}
+            >
+              <ChatBubbleLeftIcon className='h-4 w-4 text-gray-700' />
+            </button>
+            {/* Delete Button */}
+            <button
+              onClick={() => handelClick(task?.id)}
+              title='Delete'
+              disabled={task?.status === 'archiver'}
+              className={`p-2 rounded-lg transition ${task?.status === 'archiver' ? 'cursor-not-allowed opacity-40' : 'hover:cursor-pointer'
+                }`}
+            >
+              <TrashIcon className='h-4 w-4 text-red-500 ' />
             </button>
           </div>
         </div>
