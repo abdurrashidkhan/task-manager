@@ -39,12 +39,12 @@ const TaskCard = ({ option }) => {
   return (
     <div className='rounded bg-white shadow-lg hover:shadow-xl transition-all my-4 border border-gray-100'>
       <div className="w-full h-[180px] flex items-center justify-center bg-gray-100 rounded">
-  <img 
-    className="max-h-full max-w-full object-fill rounded-t" 
-    src={task?.image} 
-    alt={task?.title} 
-  />
-</div>
+        <img
+          className="max-h-full max-w-full object-fill rounded-t"
+          src={task?.image}
+          alt={task?.title}
+        />
+      </div>
 
 
       <div className='p-5 pt-0'>
@@ -56,7 +56,7 @@ const TaskCard = ({ option }) => {
               ${task?.priority === 'high' ? 'text-red-600' : ''} 
               ${task?.priority === 'low' ? 'text-green-600' : ''} capitalize`}
           >
-            {task?.title.length > 16 ? task?.title.slice(0,16) + '...' : task?.title}
+            {task?.title.length > 16 ? task?.title.slice(0, 16) + '...' : task?.title}
           </h1>
           {/* Assigned to */}
           <p className='text-sm text-gray-500'>
@@ -76,9 +76,8 @@ const TaskCard = ({ option }) => {
               onClick={() => handelClick(task?.id)}
               title='Delete'
               disabled={task?.status === 'archiver'}
-              className={`p-2 rounded-lg transition ${
-                task?.status === 'archiver' ? 'cursor-not-allowed opacity-40' : 'hover:bg-red-100'
-              }`}
+              className={`p-2 rounded-lg transition ${task?.status === 'archiver' ? 'cursor-not-allowed opacity-40' : 'hover:bg-red-100'
+                }`}
             >
               <TrashIcon className='h-5 w-5 text-red-500' />
             </button>
@@ -88,9 +87,8 @@ const TaskCard = ({ option }) => {
               onClick={() => dispatch(updateStatus({ id: task?.id, status: status }))}
               title={task?.status}
               disabled={task?.status === 'archiver'}
-              className={`p-2 rounded-lg transition ${
-                task.status === 'archiver' ? 'cursor-not-allowed opacity-40' : 'hover:bg-blue-100'
-              }`}
+              className={`p-2 rounded-lg transition ${task.status === 'archiver' ? 'cursor-not-allowed opacity-40' : 'hover:bg-blue-100'
+                }`}
             >
               <ArrowRightIcon className='h-5 w-5 text-blue-500' />
             </button>
