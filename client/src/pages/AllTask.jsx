@@ -176,7 +176,7 @@ const AllTask = () => {
     }
   };
 
-  if (!loading) return <Loading />;
+  if (loading) return <Loading />;
   if (error) return <h1>Error: {error}</h1>;
 
   return (

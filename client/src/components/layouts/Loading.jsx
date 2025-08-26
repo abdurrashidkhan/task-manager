@@ -4,7 +4,7 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const Loading = () => {
   return (
-    <div className='w-full h-screen flex justify-center items-center bg-black abs'>
+    <div className='fixed w-[100vw] h-screen flex justify-center items-center bg-[#0000008f] '>
       <DotLottieReact
         src='https://lottie.host/f2b69835-2ab2-4403-b037-5cd52bc315cb/Yu9kqQfMKN.lottie'
         loop
@@ -12,7 +12,6 @@ const Loading = () => {
         style={{
           width: '25%', 
           height: 'auto',
-          alignItems: 'center',
           margin: 'auto',
         }}
       />
