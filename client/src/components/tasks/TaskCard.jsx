@@ -46,23 +46,30 @@ const TaskCard = ({ option }) => {
         />
       </div>
 
-
+      {/* Priority Badge */}
+      <p
+        className={`inline-block px-2 py-1 text-center rounded text-xs font-semibold capitalize m-1 shadow-2xl
+              ${task?.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' : ''}
+              ${task?.priority === 'high' ? 'bg-red-100 text-red-700' : ''}
+              ${task?.priority === 'low' ? 'bg-green-100 text-green-700' : ''}`}
+      >
+        {task?.priority}
+      </p>
       <div className='p-5 pt-0'>
         <div className=''>
-          {/* Title with priority color */}
-          <h1 title={task?.title.length > 16 && task?.title}
-            className={`text-lg font-bold mb-2 
-              ${task?.priority === 'medium' ? 'text-yellow-500' : ''} 
-              ${task?.priority === 'high' ? 'text-red-600' : ''} 
-              ${task?.priority === 'low' ? 'text-green-600' : ''} capitalize`}
-          >
-            {task?.title.length > 16 ? task?.title.slice(0, 16) + '...' : task?.title}
-          </h1>
-          {/* Assigned to */}
-          <p className='text-sm text-gray-500'>
-            Assigned to:
-            <span className='font-medium text-gray-700 capitalize'> {task?.assignedTo}</span>
-          </p>
+          {/* Title and Assigned To */}
+          <div className='pr-16'>
+            <h1
+              title={task?.title}
+              className='text-lg font-semibold text-gray-700 truncate'
+            >
+              {task?.title}
+            </h1>
+            <p className='text-sm text-gray-600 mt-1'>
+              Assigned to:
+              <span className='font-medium capitalize text-gray-800'> {task?.assignedTo}</span>
+            </p>
+          </div>
           <p className='font-semibold text-xs text-gray-600'>Deadline: {task?.deadline}</p>
         </div>
 
