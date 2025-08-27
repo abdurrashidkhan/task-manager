@@ -1,4 +1,4 @@
-import { ChatBubbleLeftIcon, TrashIcon, Bars3BottomLeftIcon} from '@heroicons/react/24/solid';
+import { ChatBubbleLeftIcon, TrashIcon, Bars3BottomLeftIcon } from '@heroicons/react/24/solid';
 import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
 // import { removeTask, updateStatus } from '../../redux/task/task';
@@ -55,10 +55,10 @@ const TaskCard = ({ option }) => {
       >
         {task?.priority}
       </p>
-      <div className='p-5 pt-0'>
+      <div className='p-[5px] pt-0'>
         <div className=''>
           {/* Title and Assigned To */}
-          <div className='pr-16'>
+          <div className=''>
             <h1
               title={task?.title}
               className='text-lg font-semibold text-gray-700 truncate'

@@ -1,6 +1,6 @@
 /* For WebKit browsers (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
-    width: 4px;
+    width: none;
 }
 ::-webkit-scrollbar-thumb {
     background: #9810FA;
@@ -13,6 +13,6 @@
 
 /* For Firefox */
 * {
-  scrollbar-width: thin;
+  scrollbar-width:none;
   scrollbar-color: #9810FA #00000018;
 }
