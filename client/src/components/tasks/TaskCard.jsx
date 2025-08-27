@@ -59,12 +59,15 @@ const TaskCard = ({ option }) => {
         <div className=''>
           {/* Title and Assigned To */}
           <div className=''>
-            <h1
-              title={task?.title}
-              className='text-lg font-semibold text-gray-700 truncate'
-            >
-              {task?.title}
-            </h1>
+            <div className="flex items-center gap-2">
+              <input type="radio" name="" id="" />
+              <h1
+                title={task?.title}
+                className='text-lg font-semibold text-gray-700 truncate'
+              >
+                {task?.title}
+              </h1>
+            </div>
             <p className='text-sm text-gray-600 mt-1'>
               Assigned to:
               <span className='font-medium capitalize text-gray-800'> {task?.assignedTo}</span>
