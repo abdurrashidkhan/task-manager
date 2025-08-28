@@ -7,6 +7,9 @@ import store from './redux/stores/store.js';
 import './index.css';
 import './components/styles/tasks/tasks.css';
 ReactDOM.createRoot(document.getElementById('root')).render(
+  // testing
+  // testing-2
+  // another test
   <React.StrictMode>
     <Provider store={store}>
       <RouterProvider router={routes} />
