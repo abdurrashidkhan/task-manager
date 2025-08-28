@@ -34,6 +34,7 @@ async function run() {
             message: 'Task created successfully',
             data: newData,
           });
+          return;
         }
       } catch (err) {
         console.error('fail create task:', err.message);
@@ -51,6 +52,7 @@ async function run() {
           status: true,
           task: result,
         });
+        return;
       } catch (error) {
         res.status(500).send({
           status: false,
@@ -82,6 +84,7 @@ async function run() {
           status: true,
           task: updatedTask,
         });
+        return;
       } catch (error) {
         console.error('Update Error:', error);
         res.status(500).send({
