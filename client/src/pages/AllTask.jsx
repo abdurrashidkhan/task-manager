@@ -107,9 +107,10 @@ const AllTask = () => {
     if (!over) return;
     const activeId = active.id;
     const overId = over.id;
-
     const activeColumn = findColumn(activeId);
     const overColumn = findColumn(overId);
+    
+    
 
     if (!activeColumn || !overColumn) return;
 
@@ -161,10 +162,12 @@ const AllTask = () => {
     const activeId = active.id;
     const activeColumn = findColumn(activeId);
     const overColumn = findColumn(over.id);
+console.log('active Column:',activeColumn,',', 'active Column:',overColumn, ' ==============>');
 
-    if (activeColumn && overColumn && activeColumn !== overColumn) {
+
+    // if (activeColumn && overColumn && activeColumn !== overColumn) {
       dispatch(updateTaskStatus({ taskId: activeId, newStatus: overColumn }));
-    }
+    // }
   };
 
   /** Render */
