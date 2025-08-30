@@ -17,7 +17,7 @@ const TaskCard = ({ option }) => {
     priority: option?.priority,
     image: option?.attachment,
   };
-  console.log(task, 'task in task card');
+  // console.log(task, 'task in task card');
   // console.log(option, 'option in task card');
   // checking status and update status
   let status;
