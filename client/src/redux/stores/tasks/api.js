@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const API_URL = "https://tasks-manager-v1.vercel.app";
-const API_URL = "http://localhost:4000";
+const API_URL = "https://tasks-manager-v1.vercel.app";
 
 export const fetchTasksApi = async () => {
   const response = await axios.get(API_URL + "/tasks");
